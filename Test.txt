@@ -1,0 +1,5 @@
+1. Make a branch, call it "firstname-test" (e.g. waseem-test)
+2. In this file, add your name 
+3. Make a commit, push it, and make a pull request (do not merge it yourself)
+
+Names:
