@@ -40,7 +40,7 @@
         android:contentDescription="Home Button"
         app:srcCompat="@android:drawable/btn_star" />
 
-    <!--
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -55,9 +55,10 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/imageButtonSearch"
         android:layout_below="@+id/textView"
         android:layout_marginTop="6dp" />
-    -->
+
 
 
 </RelativeLayout>

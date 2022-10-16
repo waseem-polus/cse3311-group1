@@ -8,23 +8,23 @@
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/cityView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="City Name" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/countryView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textView"
+        android:layout_below="@id/cityView"
         android:text="Country Name" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textView2"
-        android:text="HARDCODED (part 1): 62^ F | 10%" />
+        android:layout_below="@id/countryView"
+        android:text="HARDCODED (part 1): 9999^ F | 8888%" />
 
 </RelativeLayout>
