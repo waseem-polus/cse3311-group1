@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
             //Intent intent = new Intent(v.getContext(), SearchWeather.class);
            // startActivity(intent);
        // });
-        //omair
+        //omair mohammed
     }
 
 
