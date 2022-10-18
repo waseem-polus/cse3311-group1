@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!--Coded by: Christopher Nguyen-->
-    <EditText
+
+    <androidx.appcompat.widget.SearchView
         android:id="@+id/searchHeader"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:ems="10"
-        android:hint="Search EditText Field" />
+        app:queryHint="Search here" />
 
     <ImageButton
         android:id="@+id/imageButtonHome"

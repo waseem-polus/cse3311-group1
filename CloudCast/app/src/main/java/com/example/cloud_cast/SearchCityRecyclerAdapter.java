@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class SearchCityRecyclerAdapter extends RecyclerView.Adapter<SearchCityRecyclerAdapter.MyViewHolder>{
@@ -18,6 +19,11 @@ public class SearchCityRecyclerAdapter extends RecyclerView.Adapter<SearchCityRe
     public SearchCityRecyclerAdapter(Context context, ArrayList<SearchCityInfo> list){
         this.context = context;
         this.list=list;
+    }
+
+    public void SearchCityListChange(ArrayList<SearchCityInfo> searchedList){
+        this.list = searchedList;
+        notifyDataSetChanged();
     }
 
     @NonNull
