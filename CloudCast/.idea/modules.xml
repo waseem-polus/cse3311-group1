@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Cloud_Cast.iml" filepath="$PROJECT_DIR$/.idea/modules/Cloud_Cast.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Cloud_Cast.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Cloud_Cast.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Cloud_Cast.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Cloud_Cast.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Cloud_Cast.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Cloud_Cast.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Cloud_Cast.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Cloud_Cast.app.unitTest.iml" />
+    </modules>
+  </component>
+</project>
