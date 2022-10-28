@@ -1,0 +1,84 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.cloud_cast"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="28"
+8-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="32" />
+9-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml:6:5-83
+11-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml:6:22-64
+12    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+12-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml:7:5-97
+12-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml:7:22-78
+13
+14    <application
+14-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml:9:5-28:19
+15        android:allowBackup="true"
+15-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml:10:9-35
+16        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+16-->[androidx.core:core:1.8.0] /home/hoanhtuanvo/.gradle/caches/transforms-3/28a1708219c3158e49b329d141e5cfff/transformed/core-1.8.0/AndroidManifest.xml:24:18-86
+17        android:dataExtractionRules="@xml/data_extraction_rules"
+17-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml:11:9-65
+18        android:debuggable="true"
+19        android:extractNativeLibs="false"
+20        android:fullBackupContent="@xml/backup_rules"
+20-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml:12:9-54
+21        android:icon="@mipmap/ic_launcher"
+21-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml:13:9-43
+22        android:label="@string/app_name"
+22-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml:14:9-41
+23        android:roundIcon="@mipmap/ic_launcher_round"
+23-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml:15:9-54
+24        android:supportsRtl="true"
+24-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml:16:9-35
+25        android:testOnly="true"
+26        android:theme="@style/Theme.Cloud_Cast" >
+26-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml:17:9-48
+27        <activity
+27-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml:19:9-27:20
+28            android:name="com.example.cloud_cast.MainActivity"
+28-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml:20:13-41
+29            android:exported="true" >
+29-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml:21:13-36
+30            <intent-filter>
+30-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml:22:13-26:29
+31                <action android:name="android.intent.action.MAIN" />
+31-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml:23:17-69
+31-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml:23:25-66
+32
+33                <category android:name="android.intent.category.LAUNCHER" />
+33-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml:25:17-77
+33-->/home/hoanhtuanvo/Android/cse3311-group1/CloudCast/app/src/main/AndroidManifest.xml:25:27-74
+34            </intent-filter>
+35        </activity>
+36
+37        <provider
+37-->[androidx.emoji2:emoji2:1.2.0] /home/hoanhtuanvo/.gradle/caches/transforms-3/ec6e2ba61c9a42dd8e0aa44ee71f9dfb/transformed/emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
+38            android:name="androidx.startup.InitializationProvider"
+38-->[androidx.emoji2:emoji2:1.2.0] /home/hoanhtuanvo/.gradle/caches/transforms-3/ec6e2ba61c9a42dd8e0aa44ee71f9dfb/transformed/emoji2-1.2.0/AndroidManifest.xml:25:13-67
+39            android:authorities="com.example.cloud_cast.androidx-startup"
+39-->[androidx.emoji2:emoji2:1.2.0] /home/hoanhtuanvo/.gradle/caches/transforms-3/ec6e2ba61c9a42dd8e0aa44ee71f9dfb/transformed/emoji2-1.2.0/AndroidManifest.xml:26:13-68
+40            android:exported="false" >
+40-->[androidx.emoji2:emoji2:1.2.0] /home/hoanhtuanvo/.gradle/caches/transforms-3/ec6e2ba61c9a42dd8e0aa44ee71f9dfb/transformed/emoji2-1.2.0/AndroidManifest.xml:27:13-37
+41            <meta-data
+41-->[androidx.emoji2:emoji2:1.2.0] /home/hoanhtuanvo/.gradle/caches/transforms-3/ec6e2ba61c9a42dd8e0aa44ee71f9dfb/transformed/emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
+42                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+42-->[androidx.emoji2:emoji2:1.2.0] /home/hoanhtuanvo/.gradle/caches/transforms-3/ec6e2ba61c9a42dd8e0aa44ee71f9dfb/transformed/emoji2-1.2.0/AndroidManifest.xml:30:17-75
+43                android:value="androidx.startup" />
+43-->[androidx.emoji2:emoji2:1.2.0] /home/hoanhtuanvo/.gradle/caches/transforms-3/ec6e2ba61c9a42dd8e0aa44ee71f9dfb/transformed/emoji2-1.2.0/AndroidManifest.xml:31:17-49
+44            <meta-data
+44-->[androidx.lifecycle:lifecycle-process:2.4.1] /home/hoanhtuanvo/.gradle/caches/transforms-3/371d4428813d11175307b9e72a350208/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:31:13-33:52
+45                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+45-->[androidx.lifecycle:lifecycle-process:2.4.1] /home/hoanhtuanvo/.gradle/caches/transforms-3/371d4428813d11175307b9e72a350208/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:32:17-78
+46                android:value="androidx.startup" />
+46-->[androidx.lifecycle:lifecycle-process:2.4.1] /home/hoanhtuanvo/.gradle/caches/transforms-3/371d4428813d11175307b9e72a350208/transformed/lifecycle-process-2.4.1/AndroidManifest.xml:33:17-49
+47        </provider>
+48    </application>
+49
+50</manifest>
