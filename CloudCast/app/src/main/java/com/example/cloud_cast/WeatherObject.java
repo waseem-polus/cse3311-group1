@@ -20,6 +20,13 @@ public class WeatherObject {
     @Expose
     private String icon;
 
+    public WeatherObject() {
+        this.objectID = "N/A";
+        this.mainDescription = "N/A";
+        this.description = "N/A";
+        this.icon = "N/A";
+    }
+
     public String getObjectID() {
         return objectID;
     }

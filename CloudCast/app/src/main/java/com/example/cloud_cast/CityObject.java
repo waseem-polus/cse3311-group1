@@ -3,6 +3,7 @@ package com.example.cloud_cast;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -34,6 +35,13 @@ public class CityObject {
     private String cityName;
 
     public CityObject() {
+        this.lat = "N/A";
+        this.lon = "N/A";
+        this.timezone = "N/A";
+        this.currentObject = new CurrentObject();
+        this.hourlyObject = new ArrayList<>();
+        this.dailyObject = new ArrayList<>();
+
     }
 
     public String getLat() {

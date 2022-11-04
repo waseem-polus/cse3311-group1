@@ -9,6 +9,10 @@ public class DailyObject {
     @Expose
     private TempDailyObject temp;
 
+    public DailyObject() {
+        this.temp = new TempDailyObject();
+    }
+
     public TempDailyObject getTemp() {
         return temp;
     }

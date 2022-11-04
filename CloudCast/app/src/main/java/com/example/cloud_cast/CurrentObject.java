@@ -3,6 +3,7 @@ package com.example.cloud_cast;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CurrentObject {
@@ -38,9 +39,9 @@ public class CurrentObject {
     @Expose
     private String uvi;
 
-//    @SerializedName("clouds")
-//    @Expose
-//    private String cloudiness;
+    @SerializedName("clouds")
+    @Expose
+    private String cloudiness;
 
     @SerializedName("wind_speed")
     @Expose
@@ -50,6 +51,19 @@ public class CurrentObject {
     @Expose
     private List<WeatherObject> weatherObjectList;
 
+    public CurrentObject() {
+        this.currentTime = "N/A";
+        this.sunrise = "N/A";
+        this.sunset = "N/A";
+        this.temperature = "N/A";
+        this.feelsLike = "N/A";
+        this.humidity = "N/A";
+        this.pressure = "N/A";
+        this.uvi = "N/A";
+        this.cloudiness = "N/A";
+        this.windSpeed = "N/A";
+        this.weatherObjectList = new ArrayList<>();
+    }
 
     public String getCurrentTime() {
         return currentTime;
@@ -79,9 +93,9 @@ public class CurrentObject {
         return uvi;
     }
 
-//    public String getCloudiness() {
-//        return cloudiness;
-//    }
+    public String getCloudiness() {
+        return cloudiness;
+    }
 
     public String getWindSpeed() {
         return windSpeed;

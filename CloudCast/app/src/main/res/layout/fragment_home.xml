@@ -27,7 +27,7 @@
         <TableLayout
             android:id="@+id/tableLayout3"
             android:layout_width="365dp"
-            android:layout_height="148dp"
+            android:layout_height="160dp"
             android:layout_marginTop="56dp"
             android:background="@drawable/textview_border"
             app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +57,7 @@
 
                     <ImageView
                         android:id="@+id/thermoIconimageView"
-                        android:layout_width="131dp"
+                        android:layout_width="109dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         app:srcCompat="@drawable/ic_thermometer_fill0_wght400_grad0_opsz48" />
@@ -75,7 +75,7 @@
 
                     <TextView
                         android:id="@+id/textView10"
-                        android:layout_width="27dp"
+                        android:layout_width="33dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="H\n\nL"
@@ -100,7 +100,7 @@
                         <TextView
                             android:id="@+id/lowTempTextView"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="30dp"
                             android:text="69 f"
                             android:textAlignment="center"
                             android:textAllCaps="false"
@@ -204,7 +204,7 @@
                                 app:srcCompat="@drawable/ic_lens_blur_fill0_wght400_grad0_opsz48" />
 
                             <TextView
-                                android:id="@+id/textView17"
+                                android:id="@+id/feelsLikeTextView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -242,7 +242,7 @@
                                 app:srcCompat="@drawable/ic_humidity_high_fill0_wght400_grad0_opsz48" />
 
                             <TextView
-                                android:id="@+id/textView21"
+                                android:id="@+id/humidityTextView"
                                 android:layout_width="42dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -264,7 +264,7 @@
                                 app:srcCompat="@drawable/ic_flare_fill0_wght400_grad0_opsz48" />
 
                             <TextView
-                                android:id="@+id/textView22"
+                                android:id="@+id/uviTextView"
                                 android:layout_width="42dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
@@ -300,10 +300,12 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="30dp"
+            android:layout_marginBottom="60dp"
             android:divider="@color/cardview_light_background"
             android:dividerHeight="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView26" />
 

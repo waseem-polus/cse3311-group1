@@ -1,39 +1,35 @@
 package com.example.cloud_cast;
 
+import android.app.LauncherActivity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.view.menu.ListMenuItemView;
 
 import java.util.ArrayList;
 
 public class CustomListViewBaseAdapter extends BaseAdapter {
 
     Context context;
-    //String[] locations;
-    ArrayList<CityObject> cityObjectArrayList = new ArrayList<>();
-    int[] iconImages;
+    ArrayList<CityObject> cityObjectArrayList;
     ListView listView;
     LayoutInflater inflater;
 
     public CustomListViewBaseAdapter() {
     }
 
-//    public CustomListViewBaseAdapter(Context context,  String[] locations, int[] iconImages) {
-//        this.context = context;
-//        this.locations = locations;
-//        this.iconImages = iconImages;
-//        inflater = LayoutInflater.from(context); //this context received from mainActivity
-//    }
-
-    public CustomListViewBaseAdapter(Context context,  ArrayList<CityObject> cityObjectArrayList, int[] iconImages) {
+    public CustomListViewBaseAdapter(Context context,  ArrayList<CityObject> cityObjectArrayList) {
         this.context = context;
         this.cityObjectArrayList = cityObjectArrayList;
-        this.iconImages = iconImages;
+        //this.iconImages = iconImages;
         inflater = LayoutInflater.from(context); //this context received from mainActivity
     }
 
@@ -54,25 +50,27 @@ public class CustomListViewBaseAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup viewGroup) {
-        view = inflater.inflate(R.layout.custom_list_view, null);
+        //view = inflater.inflate(R.layout.custom_list_view, null);
+       view = LayoutInflater.from(inflater.getContext()).inflate(R.layout.custom_list_view, viewGroup, false);
 
         listView = (ListView) view.findViewById(R.id.customListView);
-        TextView locationTextView = (TextView) view.findViewById(R.id.locationTextView);
-        //locationTextView.setText(locations[position]);
+        if (cityObjectArrayList == null){
+            TextView locationTextView = (TextView) view.findViewById(R.id.locationTextView);
+            //locationTextView.setText(locations[position]);
 
             //locationTextView.setText(cityObjectArrayList.get(position).getCityName());
-
-//            ImageView thermoIconImage = (ImageView) view.findViewById(R.id.thermoIconImageView);
-//            thermoIconImage.setImageResource(R.drawable.ic_thermometer_fill0_wght400_grad0_opsz48);
 
             TextView tempTextView = (TextView) view.findViewById(R.id.tempTextView);
             tempTextView.setText("80");
 
-//            ImageView rainIconImage = (ImageView) view.findViewById(R.id.rainIconImageView);
-//            rainIconImage.setImageResource((R.drawable.ic_rainy_fill0_wght400_grad0_opsz48));
-
             TextView percentRainTextView = (TextView) view.findViewById(R.id.percentRainTextView);
             percentRainTextView.setText("50");
+        } else {
+            TextView emptyList = view.findViewById(R.id.emptyListView);
+            emptyList.setText("Empty");
+        }
+
+
 
 
             return view;

@@ -3,6 +3,7 @@ package com.example.cloud_cast;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HourlyObject {
@@ -21,6 +22,13 @@ public class HourlyObject {
     @SerializedName("weather")
     @Expose
     private List<WeatherObject> weatherObjectList;
+
+    public HourlyObject() {
+        this.currentTime = "N/A";
+        this.temperature = "N/A";
+        this.windSpeed = "N/A";
+        this.weatherObjectList = new ArrayList<>();
+    }
 
     public String getCurrentTime() {
         return currentTime;

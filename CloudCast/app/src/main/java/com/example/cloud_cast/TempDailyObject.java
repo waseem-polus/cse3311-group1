@@ -12,6 +12,11 @@ public class TempDailyObject {
     @Expose
     private String max;
 
+    public TempDailyObject() {
+        this.min = "N/A";
+        this.max = "N/A";
+    }
+
     public String getMin() {
         return min;
     }

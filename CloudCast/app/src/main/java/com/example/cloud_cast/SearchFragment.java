@@ -29,18 +29,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SearchFragment extends Fragment {
     private List<SearchCityInfo> citiesList;
-    public static CityObject cityObject;
     private RecyclerView recyclerView;
 
     //These 2 api for reference
-    //private final static String url1 = "api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}" ;
     //private final static String url2 = "api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}";
-    private final static String apikey = "0ec192d57d6c5e00396f88cd7cad1f6e";
     //api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid={API key}
+    private final static String apikey = "0ec192d57d6c5e00396f88cd7cad1f6e";
 
     private Retrofit retrofit1 = null;
-    private Retrofit retrofit2 = null;
-
 
     private EditText cityNameEditText;
     private Button searchButton;
@@ -48,9 +44,11 @@ public class SearchFragment extends Fragment {
 
     private Handler handler;
 
-    String lat;
-    String lon;
+    private String lat;
+    private String lon;
+    private String cityName;
     private final String limitCityNumber = String.valueOf(5);
+    private CityObject cityObject;
 
     public SearchFragment() {
     }
@@ -73,10 +71,12 @@ public class SearchFragment extends Fragment {
         getSelectedButton = rootView.findViewById(R.id.saveButton);
         getSelectedButton.setVisibility(View.GONE);
 
+
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getweather1(null);
+                getweather1();
 
                 MainActivity.hideKeyboardFrom(getContext(), rootView);
 
@@ -109,10 +109,11 @@ public class SearchFragment extends Fragment {
                 int cityPosition = SearchCityRecyclerAdapter.checkedPosition;
               lat = citiesList.get(cityPosition).getLat();
               lon = citiesList.get(cityPosition).getLon();
-              getweather2(null);
-              Log.i("lat", lat);
-              Log.i("lon", lon);
-              Log.i("checked", String.valueOf(SearchCityRecyclerAdapter.checkedPosition));
+              cityName = ((MainActivity) getActivity()).getCityNameGPS(lat, lon);
+              ((MainActivity) getActivity()).getweather2(lat, lon, cityName);
+//              Log.i("lat", lat);
+//              Log.i("lon", lon);
+//              Log.i("checked", String.valueOf(SearchCityRecyclerAdapter.checkedPosition));
 
             }
         });
@@ -134,7 +135,7 @@ public class SearchFragment extends Fragment {
 
 
     //This is for first api to retrieve lat and lon by city name
-    public void getweather1(View v){
+    public void getweather1(){
         retrofit1= new Retrofit.Builder()
                 .baseUrl("https://api.openweathermap.org/geo/1.0/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -149,7 +150,6 @@ public class SearchFragment extends Fragment {
                 if (response.code() == 404) {
                     Toast.makeText(getContext(), "Please enter a valid city", Toast.LENGTH_LONG).show();
                 } else if (!(response.isSuccessful())) {
-                    Log.i("err", "it heres");
                     Toast.makeText(getContext(), response.code()+" ", Toast.LENGTH_LONG).show();
                     return;
                 } else {
@@ -157,12 +157,10 @@ public class SearchFragment extends Fragment {
                     for (SearchCityInfo searchCityInfo : response.body()){
                         citiesList.add(searchCityInfo);
                     }
-                    assert citiesList != null;
                     setAdapter(citiesList);
 
                 }
             }
-
             @Override
             public void onFailure(Call<List<SearchCityInfo>> call, Throwable t) {
                 Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_LONG).show();
@@ -172,42 +170,4 @@ public class SearchFragment extends Fragment {
 
     }
 
-//    This is for second api to retrieve all information
-    public void getweather2(View v){
-        retrofit2 = new Retrofit.Builder()
-                .baseUrl("https://api.openweathermap.org/data/3.0/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        weatherapi2 myapi=retrofit2.create(weatherapi2.class);
-        Call<CityObject> cityObjectCall=myapi.getweather2(lat, lon, apikey);
-        cityObjectCall.enqueue(new Callback<CityObject>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onResponse(Call<CityObject>call, Response<CityObject>response) {
-                if (response.code() == 404) {
-                    Toast.makeText(getContext(), "Invalid latitude and longitude", Toast.LENGTH_LONG).show();
-                } else if (!(response.isSuccessful())) {
-                    Toast.makeText(getContext(), response.code()+" ", Toast.LENGTH_LONG).show();
-                    return;
-                } else {
-                    cityObject = new CityObject();
-                    cityObject = response.body();
-                    cityObject.setCityName(cityNameEditText.getText().toString().trim());
-//                    Log.i("log", "log");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<CityObject> call, Throwable t) {
-                Log.i("Exception", String.valueOf(t.getMessage()));
-                Toast.makeText(getContext(),t.getMessage(),Toast.LENGTH_LONG).show();
-            }
-
-        });
-
-    }
-
-//    public CityObject getCityObject() {
-//        return cityObject;
-//    }
 }
