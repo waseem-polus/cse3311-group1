@@ -77,6 +77,7 @@ public class SearchCityRecyclerAdapter extends RecyclerView.Adapter<SearchCityRe
             } else {
                 if (checkedPosition == getAdapterPosition()) {
                     selectImageView.setVisibility(View.VISIBLE);
+
                 } else {
                     selectImageView.setVisibility(View.GONE);
                 }

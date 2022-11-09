@@ -49,38 +49,49 @@ public class HomeFragment extends Fragment {
 
             rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
+        String unit = ((MainActivity) getActivity()).getUnit();
+
 //            This is for tableView in home screen
         cityName = (TextView) rootView.findViewById(R.id.locationNameTextView);
         cityName.setText(cityObject.getCityName());
 
         temperatureTextView = (TextView) rootView.findViewById(R.id.temperatureTextView);
-        temperatureTextView.setText(cityObject.getCurrentObject().getTemperature());
+
 
         try {
             highTempTextView = (TextView) rootView.findViewById(R.id.highTempTextView);
-            highTempTextView.setText(cityObject.getDailyObject().get(0).getTemp().getMax());
+            highTempTextView.setText(cityObject.getDailyObject().get(0).getTemp().getMax() + " °");
             lowTempTextView = (TextView) rootView.findViewById(R.id.lowTempTextView);
-            lowTempTextView.setText(cityObject.getDailyObject().get(0).getTemp().getMin());
+            lowTempTextView.setText(cityObject.getDailyObject().get(0).getTemp().getMin() + " °");
         } catch (IndexOutOfBoundsException e) {}
 
 
         windSpeedTextView = (TextView) rootView.findViewById(R.id.windSpeedTextView);
-        windSpeedTextView.setText(cityObject.getCurrentObject().getWindSpeed());
+
 
         pressureTextView = (TextView) rootView.findViewById(R.id.pressureTextView);
-        pressureTextView.setText(cityObject.getCurrentObject().getPressure());
+        pressureTextView.setText(cityObject.getCurrentObject().getPressure() +" hPa");
 
         humidityTextView = (TextView) rootView.findViewById(R.id.humidityTextView);
-        humidityTextView.setText(cityObject.getCurrentObject().getHumidity());
+        humidityTextView.setText(cityObject.getCurrentObject().getHumidity() + " %");
 
-        cloudiness = (TextView) rootView.findViewById(R.id.cloudiness);
-        cloudiness.setText(cityObject.getCurrentObject().getCloudiness());
+        cloudiness = (TextView) rootView.findViewById(R.id.cloudinessTextView);
+        cloudiness.setText(cityObject.getCurrentObject().getCloudiness() + " %");
 
         feelsLikeTextView = (TextView) rootView.findViewById(R.id.feelsLikeTextView);
-        feelsLikeTextView.setText(cityObject.getCurrentObject().getFeelsLike());
+        feelsLikeTextView.setText(cityObject.getCurrentObject().getFeelsLike() +" °");
 
         uviTextView = (TextView) rootView.findViewById(R.id.uviTextView);
-        uviTextView.setText(cityObject.getCurrentObject().getUvi());
+        uviTextView.setText(cityObject.getCurrentObject().getUvi() + " uvi");
+
+        if (unit.equals("metric")) {
+            temperatureTextView.setText(cityObject.getCurrentObject().getTemperature() + " °C");
+            windSpeedTextView.setText(cityObject.getCurrentObject().getWindSpeed() + " m/s");
+
+        } else {
+            temperatureTextView.setText(cityObject.getCurrentObject().getTemperature() + " °F");
+            windSpeedTextView.setText(cityObject.getCurrentObject().getWindSpeed() + " mph");
+        }
 
 
 

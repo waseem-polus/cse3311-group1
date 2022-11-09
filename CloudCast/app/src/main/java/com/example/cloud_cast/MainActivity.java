@@ -25,6 +25,7 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,22 +77,25 @@ public class MainActivity extends AppCompatActivity {
     FusedLocationProviderClient mFusedLocationClient;
     Geocoder geocoder;
     private String latGPS = null;
+
     private String lonGPS = null;
+
+    private String unit = "metric"; //metric as default
     private String cityNameGPS = null;
     private int PERMISSION_ID = 44;
 
     BottomNavigationView bottomNavigationView;
 
     HomeFragment homeFragment = new HomeFragment();
-    SettingsFragment settingsFragment = new SettingsFragment();
 
     private CityObject cityObject = new CityObject();
     private BackTask backTask;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_main);
@@ -117,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new SearchFragment()).commit(); //SeachFragment needs to refresh every search
                         return true;
                     case R.id.settingsNavi:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, settingsFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new SettingsFragment()).commit();
                         return true;
                 }
                 return false;
@@ -151,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                             latGPS = String.valueOf(location.getLatitude());
                             lonGPS = String.valueOf(location.getLongitude());
                             cityNameGPS = getCityNameGPS(latGPS, lonGPS);
-                            getweather2(latGPS,lonGPS,cityNameGPS);
+                            getweather2(latGPS,lonGPS, unit,cityNameGPS);
                             Log.i("lat Main", location.getLatitude() + "");
                             Log.i("lon Main", location.getLongitude() + "");
                         }
@@ -222,6 +226,9 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == PERMISSION_ID) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getLastLocation();
+            } else {
+                //Default city when deny permission
+                getweather2(cityObject.getLat(), cityObject.getLon(), unit, "Mountain View");
             }
         }
     }
@@ -235,13 +242,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //    This is for second api to retrieve all information
-    public void getweather2(String lat, String lon, String cityName){
+    public void getweather2(String lat, String lon, String unit, String cityName){
         retrofit2 = new Retrofit.Builder()
                 .baseUrl("https://api.openweathermap.org/data/3.0/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         weatherapi2 myapi=retrofit2.create(weatherapi2.class);
-        Call<CityObject> cityObjectCall=myapi.getweather2(lat, lon, apikey);
+        Call<CityObject> cityObjectCall=myapi.getweather2(lat, lon, unit,apikey);
         cityObjectCall.enqueue(new Callback<CityObject>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -272,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private class BackTask extends AsyncTask<Void, Void, Void> {
+    private class BackTask extends AsyncTask<Void, Integer, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -282,6 +289,7 @@ public class MainActivity extends AppCompatActivity {
             getLastLocation();
             return null;
         }
+        //TODO: Do loading animation if have time
     }
 
     public String getCityNameGPS(String lat, String lon){
@@ -296,4 +304,23 @@ public class MainActivity extends AppCompatActivity {
         return cityNameGPS;
     }
 
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public String getLatGPS() {
+        return latGPS;
+    }
+
+    public String getLonGPS() {
+        return lonGPS;
+    }
+
+    public String getCityNameGPS() {
+        return cityNameGPS;
+    }
 }

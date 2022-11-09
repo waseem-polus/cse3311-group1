@@ -46,6 +46,7 @@ public class SearchFragment extends Fragment {
 
     private String lat;
     private String lon;
+    private String unit;
     private String cityName;
     private final String limitCityNumber = String.valueOf(5);
     private CityObject cityObject;
@@ -77,25 +78,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getweather1();
-
                 MainActivity.hideKeyboardFrom(getContext(), rootView);
-
-
-                //This part is to handle save button in search screen
-                //Delay the button, so api info will be retrieved before the button
-                handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            if (citiesList.size() != 0) {
-                                getSelectedButton.setVisibility(View.VISIBLE);
-                            }
-                        } catch (NullPointerException e) {
-                            getSelectedButton.setVisibility(View.GONE);
-                        }
-                    }
-                }, 500);
             }
         });
 
@@ -109,8 +92,9 @@ public class SearchFragment extends Fragment {
                 int cityPosition = SearchCityRecyclerAdapter.checkedPosition;
               lat = citiesList.get(cityPosition).getLat();
               lon = citiesList.get(cityPosition).getLon();
+              unit = ((MainActivity) getActivity()).getUnit();
               cityName = ((MainActivity) getActivity()).getCityNameGPS(lat, lon);
-              ((MainActivity) getActivity()).getweather2(lat, lon, cityName);
+              ((MainActivity) getActivity()).getweather2(lat, lon, unit, cityName);
 //              Log.i("lat", lat);
 //              Log.i("lon", lon);
 //              Log.i("checked", String.valueOf(SearchCityRecyclerAdapter.checkedPosition));
@@ -130,7 +114,7 @@ public class SearchFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-
+        displaySaveButton();
     }
 
 
@@ -168,6 +152,16 @@ public class SearchFragment extends Fragment {
 
         });
 
+    }
+
+    public void displaySaveButton() {
+        try {
+            if (citiesList.size() != 0) {
+                getSelectedButton.setVisibility(View.VISIBLE);
+            }
+        } catch (NullPointerException e) {
+            getSelectedButton.setVisibility(View.GONE);
+        }
     }
 
 }
