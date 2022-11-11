@@ -9,6 +9,7 @@
     android:layout_margin="5dp">
 
 
+
     <TextView
         android:id="@+id/cityView"
         android:layout_width="wrap_content"
@@ -40,5 +41,4 @@
         android:layout_marginRight="36dp"
         android:src="@drawable/sun"
         android:visibility="visible" />
-
 </RelativeLayout>

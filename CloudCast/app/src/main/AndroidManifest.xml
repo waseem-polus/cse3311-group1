@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.cloud_cast">
 
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -28,6 +29,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".WelcomeMainActivity"
             android:configChanges="orientation"
@@ -40,6 +42,7 @@
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="portrait"></activity>
+
     </application>
 
 </manifest>

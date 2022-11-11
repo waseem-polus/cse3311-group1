@@ -1,6 +1,7 @@
 package com.example.cloud_cast;
 
 import android.content.Context;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,13 +24,11 @@ public class SearchCityRecyclerAdapter extends RecyclerView.Adapter<SearchCityRe
 
     public static int checkedPosition = -1; //The 0 is first item, -1 is hidden
 
-    public SearchCityRecyclerAdapter(Context context, ArrayList<SearchCityInfo> list){
-        this.context = context;
-        this.list=list;
-    }
+
 
     public void SearchCityListChange(ArrayList<SearchCityInfo> searchedList){
         this.list = new ArrayList<>();
+
         this.list = searchedList;
         notifyDataSetChanged();
     }
@@ -45,7 +45,6 @@ public class SearchCityRecyclerAdapter extends RecyclerView.Adapter<SearchCityRe
         SearchCityInfo currentCity = list.get(position);
 
         holder.bind(currentCity);
-        //TODO: add lat, lon , and state
     }
 
     @Override
@@ -99,6 +98,4 @@ public class SearchCityRecyclerAdapter extends RecyclerView.Adapter<SearchCityRe
             });
         }
     }
-
-
 }

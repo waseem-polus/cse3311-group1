@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
     private BackTask backTask;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -321,4 +322,5 @@ public class MainActivity extends AppCompatActivity {
     public String getCityNameGPS() {
         return cityNameGPS;
     }
+
 }
