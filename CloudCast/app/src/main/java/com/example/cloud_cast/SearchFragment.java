@@ -93,7 +93,7 @@ public class SearchFragment extends Fragment {
               lat = citiesList.get(cityPosition).getLat();
               lon = citiesList.get(cityPosition).getLon();
               unit = ((MainActivity) getActivity()).getUnit();
-              cityName = ((MainActivity) getActivity()).getCityNameGPS(lat, lon);
+              cityName = citiesList.get(cityPosition).getName();
               ((MainActivity) getActivity()).getweather2(lat, lon, unit, cityName);
 //              Log.i("lat", lat);
 //              Log.i("lon", lon);

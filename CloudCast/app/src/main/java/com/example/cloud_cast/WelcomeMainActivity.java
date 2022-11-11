@@ -2,29 +2,18 @@ package com.example.cloud_cast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.fragment.app.FragmentManager;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Layout;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 public class WelcomeMainActivity extends AppCompatActivity {
-
-//    private String prevStarted = "yes";
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        SharedPreferences sharedpreferences = getSharedPreferences(getString(R.string.app_name), Context.MODE_PRIVATE);
-//        if (!sharedpreferences.getBoolean(prevStarted, false)) {
-//            SharedPreferences.Editor editor = sharedpreferences.edit();
-//            editor.putBoolean(prevStarted, Boolean.TRUE);
-//            editor.apply();
-//        } else {
-//            moveToSecondary();
-//        }
-//    }
+    private Intent homeIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +21,39 @@ public class WelcomeMainActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
         getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        setContentView(R.layout.activity_welcome_main);
+        setContentView(R.layout.welcome_main_activity);
 
-        moveToSecondary();
+        homeIntent = new Intent(getApplicationContext(), MainActivity.class);
+
     }
 
-    public void moveToSecondary(){
-        // use an intent to travel from one activity to another.
-        Intent intent = new Intent(this,MainActivity.class);
-        startActivity(intent);
+    public void yesIAmClick(View view) {
+        setContentView(R.layout.home_icons_tutorial);
     }
+
+    public void backHomeClick(View view) {
+        setContentView(R.layout.welcome_main_activity);
+    }
+
+    public void nextHomeClick(View view) {
+        setContentView(R.layout.weather_icons_tutorial);
+    }
+
+    public void backWeatherClick(View view) {
+        setContentView(R.layout.home_icons_tutorial);
+    }
+
+    public void nextWeatherClick(View view) {
+        setContentView(R.layout.add_favorite_cities);
+    }
+
+    public void backAddCitiesClick(View view) {
+        setContentView(R.layout.weather_icons_tutorial);
+    }
+
+    public void nextAddCitiesClick(View view) {
+        startActivity(homeIntent);
+        finish();
+    }
+
 }

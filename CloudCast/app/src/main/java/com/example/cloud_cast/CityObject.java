@@ -35,9 +35,9 @@ public class CityObject {
     private String cityName;
 
     public CityObject() {
-        this.lat = "37.419857";
-        this.lon = "-122.078827";
-        this.timezone = "America/California";
+        this.lat = "N/A";
+        this.lon = "N/A";
+        this.timezone = "N/A";
         this.currentObject = new CurrentObject();
         this.hourlyObject = new ArrayList<>();
         this.dailyObject = new ArrayList<>();

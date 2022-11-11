@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
     FusedLocationProviderClient mFusedLocationClient;
     Geocoder geocoder;
     private String latGPS = null;
-
     private String lonGPS = null;
 
     private String unit = "metric"; //metric as default
@@ -115,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.homeNavi:
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, homeFragment).commit();
-                        //updateWeatherInfo();
                         return true;
                     case R.id.searchNavi:
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, new SearchFragment()).commit(); //SeachFragment needs to refresh every search
@@ -156,8 +154,6 @@ public class MainActivity extends AppCompatActivity {
                             lonGPS = String.valueOf(location.getLongitude());
                             cityNameGPS = getCityNameGPS(latGPS, lonGPS);
                             getweather2(latGPS,lonGPS, unit,cityNameGPS);
-                            Log.i("lat Main", location.getLatitude() + "");
-                            Log.i("lon Main", location.getLongitude() + "");
                         }
                     }
                 });
@@ -228,7 +224,10 @@ public class MainActivity extends AppCompatActivity {
                 getLastLocation();
             } else {
                 //Default city when deny permission
-                getweather2(cityObject.getLat(), cityObject.getLon(), unit, "Mountain View");
+                latGPS = "37.419857";
+                lonGPS = "-122.078827";
+                cityNameGPS = "Mountain View";
+                getweather2(latGPS, lonGPS, unit, cityNameGPS);
             }
         }
     }
@@ -264,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
                     cityObject.setCityName(cityName);
 
                     homeFragment.setCityObject(cityObject);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, homeFragment).commit();
+                    getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, homeFragment).commitAllowingStateLoss();
 
                 }
             }
@@ -279,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private class BackTask extends AsyncTask<Void, Integer, Void> {
+    private class BackTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -289,7 +288,6 @@ public class MainActivity extends AppCompatActivity {
             getLastLocation();
             return null;
         }
-        //TODO: Do loading animation if have time
     }
 
     public String getCityNameGPS(String lat, String lon){
