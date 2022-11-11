@@ -4,7 +4,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:layout_margin="5dp">
+
 
 
     <TextView
@@ -17,14 +20,25 @@
         android:id="@+id/countryView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/cityView"
+        android:layout_below="@id/stateView"
         android:text="Country Name" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/stateView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/countryView"
-        android:text="HARDCODED (part 1): 9999^ F | 8888%" />
+        android:layout_below="@id/cityView"
+        android:text="State Name" />
 
+
+    <ImageView
+        android:id="@+id/selectImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="36dp"
+        android:src="@drawable/sun"
+        android:visibility="visible" />
 </RelativeLayout>

@@ -1,10 +1,16 @@
 package com.example.cloud_cast;
 
 import android.content.Context;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,12 +22,13 @@ public class SearchCityRecyclerAdapter extends RecyclerView.Adapter<SearchCityRe
     Context context;
     ArrayList<SearchCityInfo> list;
 
-    public SearchCityRecyclerAdapter(Context context, ArrayList<SearchCityInfo> list){
-        this.context = context;
-        this.list=list;
-    }
+    public static int checkedPosition = -1; //The 0 is first item, -1 is hidden
+
+
 
     public void SearchCityListChange(ArrayList<SearchCityInfo> searchedList){
+        this.list = new ArrayList<>();
+
         this.list = searchedList;
         notifyDataSetChanged();
     }
@@ -34,29 +41,61 @@ public class SearchCityRecyclerAdapter extends RecyclerView.Adapter<SearchCityRe
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SearchCityRecyclerAdapter.MyViewHolder holder, int position) {
-        SearchCityInfo currentCityWeather = list.get(position);
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        SearchCityInfo currentCity = list.get(position);
 
-
-        holder.cityName.setText(currentCityWeather.getCity());
-        holder.countryName.setText(currentCityWeather.getCountry());
+        holder.bind(currentCity);
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return list == null ? 0 : list.size();
     }
+
     @Override
     public long getItemId(int position){
         return position;
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView cityName, countryName;
+    public class MyViewHolder extends RecyclerView.ViewHolder{
+        TextView cityName, countryName, stateName;
+        ImageView selectImageView;
+
+
         public MyViewHolder(@NonNull View itemView){
             super(itemView);
             cityName    = itemView.findViewById(R.id.cityView);
+            stateName   = itemView.findViewById(R.id.stateView);
             countryName = itemView.findViewById(R.id.countryView);
+            selectImageView = itemView.findViewById(R.id.selectImageView);
+        }
+
+        void bind(final SearchCityInfo searchCityInfo) {
+            if (checkedPosition == -1) {
+                selectImageView.setVisibility(View.GONE);
+            } else {
+                if (checkedPosition == getAdapterPosition()) {
+                    selectImageView.setVisibility(View.VISIBLE);
+
+                } else {
+                    selectImageView.setVisibility(View.GONE);
+                }
+            }
+
+            cityName.setText(searchCityInfo.getName());
+            stateName.setText(searchCityInfo.getState());
+            countryName.setText(searchCityInfo.getCountry());
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectImageView.setVisibility(View.VISIBLE);
+                    if (checkedPosition != getAdapterPosition()) {
+                        notifyItemChanged(checkedPosition);
+                        checkedPosition = getAdapterPosition();
+                    }
+                }
+            });
         }
     }
 }
