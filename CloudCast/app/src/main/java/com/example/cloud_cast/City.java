@@ -1,3 +1,5 @@
+package com.example.cloud_cast;
+//Eno Mbosowo
 public class City {
 
     private double temp;
@@ -27,6 +29,20 @@ public class City {
     public City(String cityName, String stateName, String countryName){
         this.cityName = cityName;
         this.stateName = stateName;
+        this.countryName = countryName;
+
+        temp = 0;
+        tempMin = 0;
+        tempMax = 0;
+        windSpeed = 0;
+        precipitation = 0;
+        humidity = 0;
+        pressure = 0;
+    }
+
+    public City(String cityName, String countryName){
+        this.cityName = cityName;
+        this.stateName = "";
         this.countryName = countryName;
 
         temp = 0;
