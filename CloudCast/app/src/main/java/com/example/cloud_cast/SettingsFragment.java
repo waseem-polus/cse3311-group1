@@ -59,11 +59,11 @@ public class SettingsFragment extends Fragment implements AdapterView.OnItemSele
                     break;
                 case 1:
                     ((MainActivity) getActivity()).setUnit("metric");
-                    ((MainActivity) getActivity()).getweather2(((MainActivity) getActivity()).getLatGPS(), ((MainActivity) getActivity()).getLonGPS(), ((MainActivity) getActivity()).getUnit(), ((MainActivity) getActivity()).getCityNameGPS());
+                    ((MainActivity) getActivity()).getweather2(((MainActivity) getActivity()).getLatGPS(), ((MainActivity) getActivity()).getLonGPS(), ((MainActivity) getActivity()).getUnit(), ((MainActivity) getActivity()).getCityNameGPS(), "home");
                     break;
                 case 2:
                     ((MainActivity) getActivity()).setUnit("imperial");
-                    ((MainActivity) getActivity()).getweather2(((MainActivity) getActivity()).getLatGPS(), ((MainActivity) getActivity()).getLonGPS(), ((MainActivity) getActivity()).getUnit(), ((MainActivity) getActivity()).getCityNameGPS());
+                    ((MainActivity) getActivity()).getweather2(((MainActivity) getActivity()).getLatGPS(), ((MainActivity) getActivity()).getLonGPS(), ((MainActivity) getActivity()).getUnit(), ((MainActivity) getActivity()).getCityNameGPS(), "home");
                     break;
             }
 

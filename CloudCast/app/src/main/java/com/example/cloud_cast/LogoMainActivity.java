@@ -26,6 +26,7 @@ public class LogoMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+
         getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_logo_main);
@@ -33,8 +34,7 @@ public class LogoMainActivity extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(getString(R.string.app_name), getApplicationContext().MODE_PRIVATE);
         boolean showWelcome = sharedpreferences.getBoolean("isShowWelcomeScreen", false);
 
-//        if (!showWelcome) {
-        if (true) {
+       if (!showWelcome) {
             //for first-time user to see the tutorial
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -48,17 +48,17 @@ public class LogoMainActivity extends AppCompatActivity {
                     // on the below line we are finishing our current activity.
                     finish();
                 }
-            }, 1500);
+            }, 1000);
         } else {
             //skipping tutorial
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    //homeIntent = new Intent(getApplicationContext(), MainActivity.class);
-                    //startActivity(homeIntent);
-                    //finish();
+                    homeIntent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(homeIntent);
+                    finish();
                 }
-            }, 1500);
+            }, 1000);
         }
     }
 

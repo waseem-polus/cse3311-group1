@@ -34,7 +34,7 @@ public class SearchFragment extends Fragment {
     //These 2 api for reference
     //private final static String url2 = "api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}";
     //api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid={API key}
-    private final static String apikey = "0ec192d57d6c5e00396f88cd7cad1f6e";
+    private final String apikey = "0ec192d57d6c5e00396f88cd7cad1f6e";
 
     private Retrofit retrofit1 = null;
 
@@ -90,15 +90,15 @@ public class SearchFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 int cityPosition = SearchCityRecyclerAdapter.checkedPosition;
+                if (cityPosition == -1){
+                    cityPosition = 0;
+                    Toast.makeText(getContext(),"Chose first city", Toast.LENGTH_SHORT).show();
+                }
               lat = citiesList.get(cityPosition).getLat();
               lon = citiesList.get(cityPosition).getLon();
               unit = ((MainActivity) getActivity()).getUnit();
               cityName = citiesList.get(cityPosition).getName();
-              ((MainActivity) getActivity()).getweather2(lat, lon, unit, cityName);
-//              Log.i("lat", lat);
-//              Log.i("lon", lon);
-//              Log.i("checked", String.valueOf(SearchCityRecyclerAdapter.checkedPosition));
-
+              ((MainActivity) getActivity()).getweather2(lat, lon, unit, cityName, "search");
             }
         });
 

@@ -1,14 +1,18 @@
 package com.example.cloud_cast;
 
+import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -16,7 +20,11 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
-    ListView listView;
+    RecyclerView recyclerView;
+    HomeRecyclerAdapter homeRecyclerAdapter;
+    LinearLayoutManager linearLayoutManager;
+
+    DatabaseHelper databaseHelper;
 
     private  TextView cityName;
     private  TextView temperatureTextView;
@@ -32,6 +40,7 @@ public class HomeFragment extends Fragment {
     ArrayList<CityObject> favoriteCityList = new ArrayList<>();
 
     CityObject cityObject = new CityObject();
+    CityObject favCityObject;
 
     private View rootView;
 
@@ -93,27 +102,66 @@ public class HomeFragment extends Fragment {
             windSpeedTextView.setText(cityObject.getCurrentObject().getWindSpeed() + " mph");
         }
 
+        databaseHelper = new DatabaseHelper(getActivity());
 
 
+//        ArrayList<String> arrayListTest = new ArrayList<>();
+//        arrayListTest.add("TUan");
+//        arrayListTest.add("Bella");
+//        arrayListTest.add("Bell");
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.homeRecyclerView);
+        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        homeRecyclerAdapter = new HomeRecyclerAdapter(favoriteCityList);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(homeRecyclerAdapter);
 
+        //displayFavoriteCity();
+        //databaseHelper.deleteAll();
 
-
-        //This is for listView in home screen
-//        listView = (ListView) rootView.findViewById(R.id.customListView);
-//
-//        CustomListViewBaseAdapter customBaseAdapter = new CustomListViewBaseAdapter(getContext(), favoriteCityList);
-//
-//        favoriteCityList.add(cityObject);
-//
-//
-//        listView.setAdapter(customBaseAdapter);
-
-        // Inflate the layout for this fragment
         return rootView;
+    }
+
+    public void insertFavoriteCity() {
+        CityPageFragment cityPageFragment = ((MainActivity) getActivity()).cityPageFragment;
+        Boolean checkInsertData = databaseHelper.insert(cityPageFragment.favCityName, cityPageFragment.favLat, cityPageFragment.favLon);
+        if (checkInsertData == false) {
+            Toast.makeText(getActivity(), "Cannot save favorite city", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getActivity(), "Saved favorite city", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void displayFavoriteCity() {
+        Cursor cursor = databaseHelper.getData();
+        if (cursor.getCount() == 0) {
+            Toast.makeText(getActivity(), "Empty Data", Toast.LENGTH_SHORT).show();
+            return;
+        } else {
+            try {
+                while(!cursor.isAfterLast()) {
+                    String cityName = cursor.getString(1);
+                    String lat = cursor.getString(2);
+                    String lon = cursor.getString(3);
+                    String unit = ((MainActivity) getActivity()).getUnit();
+                    //((MainActivity) getActivity()).getweather2(lat, lon, unit, cityName, "home_fav_city");
+                    //favoriteCityList.add(favCityObject);
+                    cursor.moveToNext();
+                    //TODO: create a fav city object
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     public void setCityObject(CityObject cityObject) {
         this.cityObject = cityObject;
+    }
+
+    public void setFavCityObject(CityObject favCityObject) {
+        this.favCityObject = new CityObject();
+        this.favCityObject = favCityObject;
     }
 
 

@@ -16,9 +16,9 @@ public class CityObject {
     @Expose
     private String lon;
 
-    @SerializedName("timezone")
+    @SerializedName("timezone_offset")
     @Expose
-    private String timezone;
+    private String timeZoneOffset;
 
     @SerializedName("current")
     @Expose
@@ -37,7 +37,7 @@ public class CityObject {
     public CityObject() {
         this.lat = "N/A";
         this.lon = "N/A";
-        this.timezone = "N/A";
+        this.timeZoneOffset = "N/A";
         this.currentObject = new CurrentObject();
         this.hourlyObject = new ArrayList<>();
         this.dailyObject = new ArrayList<>();
@@ -52,8 +52,8 @@ public class CityObject {
         return lon;
     }
 
-    public String getTimezone() {
-        return timezone;
+    public String getTimeZoneOffset() {
+        return timeZoneOffset;
     }
 
     public CurrentObject getCurrentObject() {

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -70,7 +71,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    private final static String apikey = "0ec192d57d6c5e00396f88cd7cad1f6e";
+    private final String apikey = "0ec192d57d6c5e00396f88cd7cad1f6e";
 
     private Retrofit retrofit2 = null;
 
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
 
     HomeFragment homeFragment = new HomeFragment();
+    CityPageFragment cityPageFragment = new CityPageFragment();
 
     private CityObject cityObject = new CityObject();
     private BackTask backTask;
@@ -153,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                             latGPS = String.valueOf(location.getLatitude());
                             lonGPS = String.valueOf(location.getLongitude());
                             cityNameGPS = getCityNameGPS(latGPS, lonGPS);
-                            getweather2(latGPS,lonGPS, unit,cityNameGPS);
+                            getweather2(latGPS,lonGPS, unit,cityNameGPS, "home");
                         }
                     }
                 });
@@ -227,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
                 latGPS = "37.419857";
                 lonGPS = "-122.078827";
                 cityNameGPS = "Mountain View";
-                getweather2(latGPS, lonGPS, unit, cityNameGPS);
+                getweather2(latGPS, lonGPS, unit, cityNameGPS, "home");
             }
         }
     }
@@ -241,7 +243,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //    This is for second api to retrieve all information
-    public void getweather2(String lat, String lon, String unit, String cityName){
+    //     calledFrom: "home", "search"
+    public void getweather2(String lat, String lon, String unit, String cityName, String calledFrom){
         retrofit2 = new Retrofit.Builder()
                 .baseUrl("https://api.openweathermap.org/data/3.0/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -260,11 +263,21 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 } else {
                     cityObject = response.body();
+                    assert cityObject != null;
                     cityObject.setCityName(cityName);
 
-                    homeFragment.setCityObject(cityObject);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, homeFragment).commitAllowingStateLoss();
-
+                    if (calledFrom.equals("home")) {
+                        homeFragment.setCityObject(cityObject);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, homeFragment).commitAllowingStateLoss();
+                    }
+                    else if (calledFrom.equals("search")) {
+                        cityPageFragment.setCityObject(cityObject);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, cityPageFragment).commit();
+                    }
+                    else if (calledFrom.equals("home_fav_city")) {
+                        homeFragment.setFavCityObject(cityObject);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, homeFragment).commit();
+                    }
                 }
             }
 
@@ -279,7 +292,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class BackTask extends AsyncTask<Void, Void, Void> {
-
         @Override
         protected Void doInBackground(Void... voids) {
             //Get Location(BackEnd)
@@ -288,6 +300,7 @@ public class MainActivity extends AppCompatActivity {
             getLastLocation();
             return null;
         }
+
     }
 
     public String getCityNameGPS(String lat, String lon){
@@ -301,6 +314,7 @@ public class MainActivity extends AppCompatActivity {
         cityNameGPS = addressList.get(0).getLocality();
         return cityNameGPS;
     }
+
 
     public void setUnit(String unit) {
         this.unit = unit;

@@ -27,12 +27,6 @@ public class SearchCityRecyclerAdapter extends RecyclerView.Adapter<SearchCityRe
         this.list=list;
     }
 
-    public void SearchCityListChange(ArrayList<SearchCityInfo> searchedList){
-        this.list = new ArrayList<>();
-        this.list = searchedList;
-        notifyDataSetChanged();
-    }
-
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -43,9 +37,8 @@ public class SearchCityRecyclerAdapter extends RecyclerView.Adapter<SearchCityRe
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         SearchCityInfo currentCity = list.get(position);
-
+        checkedPosition = -1;
         holder.bind(currentCity);
-        //TODO: add lat, lon , and state
     }
 
     @Override
@@ -58,7 +51,7 @@ public class SearchCityRecyclerAdapter extends RecyclerView.Adapter<SearchCityRe
         return position;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    class MyViewHolder extends RecyclerView.ViewHolder{
         TextView cityName, countryName, stateName;
         ImageView selectImageView;
 
@@ -95,6 +88,7 @@ public class SearchCityRecyclerAdapter extends RecyclerView.Adapter<SearchCityRe
                         notifyItemChanged(checkedPosition);
                         checkedPosition = getAdapterPosition();
                     }
+
                 }
             });
         }
