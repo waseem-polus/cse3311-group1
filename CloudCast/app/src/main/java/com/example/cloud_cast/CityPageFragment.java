@@ -48,9 +48,10 @@ public class CityPageFragment extends Fragment {
     private ImageView backArrowImageView;
     private Button saveButton;
 
-    public String favCityName;
-    public String favLat;
-    public String favLon;
+    private String favCityName;
+    private String favState;
+    private String favLat;
+    private String favLon;
 
     DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
 
@@ -156,11 +157,13 @@ public class CityPageFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 favCityName = cityObject.getCityName();
+                favState    = cityObject.getStateName();
                 favLat      = cityObject.getLat();
                 favLon      = cityObject.getLon();
 
-//
-                ((MainActivity) getActivity()).homeFragment.insertFavoriteCity();
+                ((MainActivity) getActivity()).getweather2(favLat, favLon, unit, favCityName, favState, "home_fav_city");
+
+//((MainActivity) getActivity()).homeFragment.insertFavoriteCity();
 //                ((MainActivity) getActivity()).homeFragment.displayFavoriteCity();
 
                 saveButton.setVisibility(View.GONE);

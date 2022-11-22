@@ -48,8 +48,8 @@ public class SearchFragment extends Fragment {
     private String lon;
     private String unit;
     private String cityName;
+    private String stateName;
     private final String limitCityNumber = String.valueOf(5);
-    private CityObject cityObject;
 
     public SearchFragment() {
     }
@@ -98,7 +98,8 @@ public class SearchFragment extends Fragment {
               lon = citiesList.get(cityPosition).getLon();
               unit = ((MainActivity) getActivity()).getUnit();
               cityName = citiesList.get(cityPosition).getName();
-              ((MainActivity) getActivity()).getweather2(lat, lon, unit, cityName, "search");
+              stateName = citiesList.get(cityPosition).getState();
+              ((MainActivity) getActivity()).getweather2(lat, lon, unit, cityName, stateName, "search");
             }
         });
 

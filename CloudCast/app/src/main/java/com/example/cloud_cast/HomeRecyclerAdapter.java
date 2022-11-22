@@ -1,5 +1,6 @@
 package com.example.cloud_cast;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,15 +27,16 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        try {
-            holder.cityName.setText(favoriteCityList.get(position).getCityName());
-            holder.description.setText(favoriteCityList.get(position).getCurrentObject().getWeatherObjectList().get(0).getDescription());
+            //Filter out if stateName is available or not to display
+            if (favoriteCityList.get(position).getStateName().equals("N/A")) {
+                holder.cityName.setText(favoriteCityList.get(position).getCityName());
+            } else {
+                holder.cityName.setText(favoriteCityList.get(position).getCityName() + ", " + favoriteCityList.get(position).getStateName());
+            }
+
             holder.temp.setText(favoriteCityList.get(position).getCurrentObject().getTemperature() + "°");
             holder.cloudiness.setText(favoriteCityList.get(position).getCurrentObject().getCloudiness() + "%");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+            holder.description.setText(favoriteCityList.get(position).getCurrentObject().getWeatherObjectList().get(0).getDescription());
     }
 
     @Override

@@ -102,7 +102,12 @@ public class HomeFragment extends Fragment {
             windSpeedTextView.setText(cityObject.getCurrentObject().getWindSpeed() + " mph");
         }
 
-        databaseHelper = new DatabaseHelper(getActivity());
+
+         databaseHelper = new DatabaseHelper(getActivity());
+
+        if (favCityObject != null && !favoriteCityList.contains(favCityObject)) {
+            favoriteCityList.add(favCityObject);
+        }
 
 
 //        ArrayList<String> arrayListTest = new ArrayList<>();
@@ -122,8 +127,8 @@ public class HomeFragment extends Fragment {
     }
 
     public void insertFavoriteCity() {
-        CityPageFragment cityPageFragment = ((MainActivity) getActivity()).cityPageFragment;
-        Boolean checkInsertData = databaseHelper.insert(cityPageFragment.favCityName, cityPageFragment.favLat, cityPageFragment.favLon);
+        //CityPageFragment cityPageFragment = ((MainActivity) getActivity()).getCityPageFragment();
+        Boolean checkInsertData = databaseHelper.insert("DallasTest", "123", "456");
         if (checkInsertData == false) {
             Toast.makeText(getActivity(), "Cannot save favorite city", Toast.LENGTH_LONG).show();
         } else {
@@ -160,7 +165,6 @@ public class HomeFragment extends Fragment {
     }
 
     public void setFavCityObject(CityObject favCityObject) {
-        this.favCityObject = new CityObject();
         this.favCityObject = favCityObject;
     }
 

@@ -25,8 +25,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static final int DB_VERSION = 1;
 
     // Creating table query
-    private static final String CREATE_TABLE_IF_NOT_EXISTS = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(" + _ID
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CITYNAME + " TEXT NOT NULL, " + LAT + " TEXT NOT NULL, " + LON + " TEXT NOT NULL);";
+//    private static final String CREATE_TABLE_IF_NOT_EXISTS = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(" + _ID
+//            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CITYNAME + " TEXT NOT NULL, " + LAT + " TEXT NOT NULL, " + LON + " TEXT NOT NULL);";
+
+    private static final String CREATE_TABLE_IF_NOT_EXISTS = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                                                                                                                + CITYNAME + " TEXT);";
+
 
 
     public DatabaseHelper(@Nullable Context context) {

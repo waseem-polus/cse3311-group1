@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/cardview_default_radius"
             android:text="City Name"
+            android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.049"
@@ -25,10 +26,9 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/descriptionTextView"
             android:layout_width="158dp"
             android:layout_height="26dp"
-            android:layout_marginTop="4dp"
             android:padding="@dimen/cardview_default_radius"
             android:text="Description"
             android:textStyle="italic"
@@ -39,9 +39,13 @@
             android:id="@+id/imageView"
             android:layout_width="47dp"
             android:layout_height="40dp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView2"
-            app:layout_constraintStart_toEndOf="@+id/textView2"
-            app:layout_constraintTop_toTopOf="@+id/cityNameTextView"
+            android:layout_marginStart="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tempTextView"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/descriptionTextView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
             app:srcCompat="@drawable/ic_thermometer_fill0_wght400_grad0_opsz48" />
 
         <ImageView
@@ -49,18 +53,25 @@
             android:layout_width="40dp"
             android:layout_height="39dp"
             android:layout_marginStart="4dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/cloudinessTextView"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/imageView4"
-            app:layout_constraintTop_toTopOf="@+id/imageView"
-            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
             app:srcCompat="@drawable/ic_rainy_fill0_wght400_grad0_opsz48" />
 
         <TextView
             android:id="@+id/tempTextView"
             android:layout_width="47dp"
             android:layout_height="41dp"
+            android:layout_marginStart="4dp"
+            android:gravity="center"
             android:text="TextView"
+            android:textColor="#EF6C6C"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView4"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5" />
@@ -69,11 +80,17 @@
             android:id="@+id/cloudinessTextView"
             android:layout_width="47dp"
             android:layout_height="41dp"
+            android:gravity="center"
             android:text="TextView"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+
+            android:textColor="#2196F3"
+            android:textColorHighlight="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/imageView6"
-            app:layout_constraintTop_toTopOf="@+id/imageView6"
-            app:layout_constraintVertical_bias="0.428" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
 
         <ImageView
             android:id="@+id/imageView4"

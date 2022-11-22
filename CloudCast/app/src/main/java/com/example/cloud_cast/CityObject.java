@@ -34,6 +34,8 @@ public class CityObject {
 
     private String cityName;
 
+    private String stateName;
+
     public CityObject() {
         this.lat = "N/A";
         this.lon = "N/A";
@@ -74,5 +76,13 @@ public class CityObject {
 
     public void setCityName(String cityName) {
         this.cityName = cityName;
+    }
+
+    public String getStateName() {
+        return stateName;
+    }
+
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
     }
 }

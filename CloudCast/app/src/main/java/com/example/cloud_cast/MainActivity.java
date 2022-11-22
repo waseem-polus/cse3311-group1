@@ -87,9 +87,10 @@ public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
 
     HomeFragment homeFragment = new HomeFragment();
-    CityPageFragment cityPageFragment = new CityPageFragment();
+    CityPageFragment cityPageFragment;// = new CityPageFragment();
 
     private CityObject cityObject = new CityObject();
+    private CityObject favCityObject = new CityObject();
     private BackTask backTask;
 
 
@@ -100,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_main);
+
+        cityPageFragment = new CityPageFragment();
 
         // start AsyncTask
         backTask = new BackTask();
@@ -155,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                             latGPS = String.valueOf(location.getLatitude());
                             lonGPS = String.valueOf(location.getLongitude());
                             cityNameGPS = getCityNameGPS(latGPS, lonGPS);
-                            getweather2(latGPS,lonGPS, unit,cityNameGPS, "home");
+                            getweather2(latGPS,lonGPS, unit,cityNameGPS, "","home");
                         }
                     }
                 });
@@ -229,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
                 latGPS = "37.419857";
                 lonGPS = "-122.078827";
                 cityNameGPS = "Mountain View";
-                getweather2(latGPS, lonGPS, unit, cityNameGPS, "home");
+                getweather2(latGPS, lonGPS, unit, cityNameGPS, "","home");
             }
         }
     }
@@ -244,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
 
     //    This is for second api to retrieve all information
     //     calledFrom: "home", "search"
-    public void getweather2(String lat, String lon, String unit, String cityName, String calledFrom){
+    public void getweather2(String lat, String lon, String unit, String cityName, String stateName, String calledFrom){
         retrofit2 = new Retrofit.Builder()
                 .baseUrl("https://api.openweathermap.org/data/3.0/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -262,19 +265,27 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), response.code()+" ", Toast.LENGTH_LONG).show();
                     return;
                 } else {
-                    cityObject = response.body();
-                    assert cityObject != null;
-                    cityObject.setCityName(cityName);
 
                     if (calledFrom.equals("home")) {
+                        cityObject = response.body();
+                        assert cityObject != null;
+                        cityObject.setCityName(cityName);
                         homeFragment.setCityObject(cityObject);
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, homeFragment).commitAllowingStateLoss();
                     }
                     else if (calledFrom.equals("search")) {
+                        cityObject = response.body();
+                        assert cityObject != null;
+                        cityObject.setCityName(cityName);
+                        cityObject.setStateName(stateName);
                         cityPageFragment.setCityObject(cityObject);
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, cityPageFragment).commit();
                     }
                     else if (calledFrom.equals("home_fav_city")) {
+                        favCityObject = response.body();
+                        assert favCityObject != null;
+                        favCityObject.setCityName(cityName);
+                        favCityObject.setStateName(stateName);
                         homeFragment.setFavCityObject(cityObject);
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, homeFragment).commit();
                     }
@@ -334,5 +345,9 @@ public class MainActivity extends AppCompatActivity {
 
     public String getCityNameGPS() {
         return cityNameGPS;
+    }
+
+    public CityPageFragment getCityPageFragment() {
+        return cityPageFragment;
     }
 }
