@@ -61,7 +61,7 @@ public class HomeFragment extends Fragment {
     CityObject favCityObject;
 
     String unit;
-    private boolean isUpdated = false;
+    private boolean isUpdated = true;
 
     private View rootView;
 
@@ -132,11 +132,17 @@ public class HomeFragment extends Fragment {
                 windSpeedTextView.setText(cityObject.getCurrentObject().getWindSpeed() + " mph");
             }
 
-            if (favCityObject != null) {
+            if (favCityObject != null && !favoriteCityList.contains(favCityObject)) {
                 insertFavCityList();
             }
 
             displayFavCityList(isUpdated);
+
+            recyclerView = (RecyclerView) rootView.findViewById(R.id.homeRecyclerView);
+            linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+            homeRecyclerAdapter = new HomeRecyclerAdapter(favoriteCityList);
+            recyclerView.setLayoutManager(linearLayoutManager);
+            recyclerView.setAdapter(homeRecyclerAdapter);
 
         }
 
@@ -146,7 +152,6 @@ public class HomeFragment extends Fragment {
     public void insertFavCityList() {
         for (int i = 0; i < favoriteCityList.size(); i++) {
             if (favoriteCityList.get(i).getLat().equals(favCityObject.getLat())) {
-                Toast.makeText(getActivity(), "Insert Unsuccessfully", Toast.LENGTH_SHORT).show();
                 return;
             }
         }
@@ -154,11 +159,15 @@ public class HomeFragment extends Fragment {
             Boolean checkInsertData = databaseHelper.insertFavCity(favCityObject.getCityName(), favCityObject.getStateName(), favCityObject.getLat(), favCityObject.getLon());
             if (checkInsertData == true) {
                 Toast.makeText(getActivity(), "New City Inserted", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), "Insert Unsuccessfully", Toast.LENGTH_SHORT).show();
             }
     }
 
     //TODO caled from where
     private void displayFavCityList(boolean isUpdated) {
+        if (isUpdated == true) {
+            this.isUpdated = false;
         cursor = databaseHelper.getData();
         //TODO consider this if
         if (cursor.getCount() == 0) {
@@ -200,11 +209,11 @@ public class HomeFragment extends Fragment {
                         favCityObject.setStateName(stateNameArray.get(finalI));
                         favoriteCityList.add(favCityObject);
                     }
-                            recyclerView = (RecyclerView) rootView.findViewById(R.id.homeRecyclerView);
-                            linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-                            homeRecyclerAdapter = new HomeRecyclerAdapter(favoriteCityList);
-                            recyclerView.setLayoutManager(linearLayoutManager);
-                            recyclerView.setAdapter(homeRecyclerAdapter);
+                    recyclerView = (RecyclerView) rootView.findViewById(R.id.homeRecyclerView);
+                    linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                    homeRecyclerAdapter = new HomeRecyclerAdapter(favoriteCityList);
+                    recyclerView.setLayoutManager(linearLayoutManager);
+                    recyclerView.setAdapter(homeRecyclerAdapter);
                 }
 
                 @Override
@@ -214,7 +223,7 @@ public class HomeFragment extends Fragment {
                 }
 
             });
-
+        }
         }
     }
 
