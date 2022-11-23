@@ -1,12 +1,17 @@
 package com.example.cloud_cast;
 
+import static com.example.cloud_cast.MainActivity.apikey;
+
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +23,12 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class HomeFragment extends Fragment {
 
     RecyclerView recyclerView;
@@ -25,6 +36,8 @@ public class HomeFragment extends Fragment {
     LinearLayoutManager linearLayoutManager;
 
     DatabaseHelper databaseHelper;
+    Cursor cursor;
+    private Retrofit retrofit2 = null;
 
     private  TextView cityName;
     private  TextView temperatureTextView;
@@ -37,10 +50,18 @@ public class HomeFragment extends Fragment {
     private  TextView feelsLikeTextView;
     private  TextView uviTextView;
 
+    ArrayList<String> cityNameArray;
+    ArrayList<String> stateNameArray;
+    ArrayList<String> latArray;
+    ArrayList<String> lonArray;
+
     ArrayList<CityObject> favoriteCityList = new ArrayList<>();
 
     CityObject cityObject = new CityObject();
     CityObject favCityObject;
+
+    String unit;
+    private boolean isUpdated = false;
 
     private View rootView;
 
@@ -50,6 +71,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        unit = ((MainActivity) getActivity()).getUnit();
+        databaseHelper = new DatabaseHelper(getActivity());
     }
 
     @Override
@@ -58,107 +81,144 @@ public class HomeFragment extends Fragment {
 
             rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        String unit = ((MainActivity) getActivity()).getUnit();
+
+        if (!cityObject.getLat().equals("N/A")) {
+            String unit = ((MainActivity) getActivity()).getUnit();
+            cityNameArray = new ArrayList<>();
+            stateNameArray = new ArrayList<>();
+            latArray = new ArrayList<>();
+            lonArray = new ArrayList<>();
 
 //            This is for tableView in home screen
-        cityName = (TextView) rootView.findViewById(R.id.locationNameTextView);
-        cityName.setText(cityObject.getCityName());
+            cityName = (TextView) rootView.findViewById(R.id.locationNameTextView);
+            cityName.setText(cityObject.getCityName());
 
-        temperatureTextView = (TextView) rootView.findViewById(R.id.temperatureTextView);
-
-
-        try {
-            highTempTextView = (TextView) rootView.findViewById(R.id.highTempTextView);
-            highTempTextView.setText(cityObject.getDailyObject().get(0).getTemp().getMax() + " °");
-            lowTempTextView = (TextView) rootView.findViewById(R.id.lowTempTextView);
-            lowTempTextView.setText(cityObject.getDailyObject().get(0).getTemp().getMin() + " °");
-        } catch (IndexOutOfBoundsException e) {}
+            temperatureTextView = (TextView) rootView.findViewById(R.id.temperatureTextView);
 
 
-        windSpeedTextView = (TextView) rootView.findViewById(R.id.windSpeedTextView);
+            try {
+                highTempTextView = (TextView) rootView.findViewById(R.id.highTempTextView);
+                highTempTextView.setText(cityObject.getDailyObject().get(0).getTemp().getMax() + " °");
+                lowTempTextView = (TextView) rootView.findViewById(R.id.lowTempTextView);
+                lowTempTextView.setText(cityObject.getDailyObject().get(0).getTemp().getMin() + " °");
+            } catch (IndexOutOfBoundsException e) {
+            }
 
 
-        pressureTextView = (TextView) rootView.findViewById(R.id.pressureTextView);
-        pressureTextView.setText(cityObject.getCurrentObject().getPressure() +" hPa");
+            windSpeedTextView = (TextView) rootView.findViewById(R.id.windSpeedTextView);
 
-        humidityTextView = (TextView) rootView.findViewById(R.id.humidityTextView);
-        humidityTextView.setText(cityObject.getCurrentObject().getHumidity() + " %");
 
-        cloudiness = (TextView) rootView.findViewById(R.id.cloudinessTextView);
-        cloudiness.setText(cityObject.getCurrentObject().getCloudiness() + " %");
+            pressureTextView = (TextView) rootView.findViewById(R.id.pressureTextView);
+            pressureTextView.setText(cityObject.getCurrentObject().getPressure() + " hPa");
 
-        feelsLikeTextView = (TextView) rootView.findViewById(R.id.feelsLikeTextView);
-        feelsLikeTextView.setText(cityObject.getCurrentObject().getFeelsLike() +" °");
+            humidityTextView = (TextView) rootView.findViewById(R.id.humidityTextView);
+            humidityTextView.setText(cityObject.getCurrentObject().getHumidity() + " %");
 
-        uviTextView = (TextView) rootView.findViewById(R.id.uviTextView);
-        uviTextView.setText(cityObject.getCurrentObject().getUvi() + " uvi");
+            cloudiness = (TextView) rootView.findViewById(R.id.cloudinessTextView);
+            cloudiness.setText(cityObject.getCurrentObject().getCloudiness() + " %");
 
-        if (unit.equals("metric")) {
-            temperatureTextView.setText(cityObject.getCurrentObject().getTemperature() + " °C");
-            windSpeedTextView.setText(cityObject.getCurrentObject().getWindSpeed() + " m/s");
+            feelsLikeTextView = (TextView) rootView.findViewById(R.id.feelsLikeTextView);
+            feelsLikeTextView.setText(cityObject.getCurrentObject().getFeelsLike() + " °");
 
-        } else {
-            temperatureTextView.setText(cityObject.getCurrentObject().getTemperature() + " °F");
-            windSpeedTextView.setText(cityObject.getCurrentObject().getWindSpeed() + " mph");
+            uviTextView = (TextView) rootView.findViewById(R.id.uviTextView);
+            uviTextView.setText(cityObject.getCurrentObject().getUvi() + " uvi");
+
+            if (unit.equals("metric")) {
+                temperatureTextView.setText(cityObject.getCurrentObject().getTemperature() + " °C");
+                windSpeedTextView.setText(cityObject.getCurrentObject().getWindSpeed() + " m/s");
+
+            } else {
+                temperatureTextView.setText(cityObject.getCurrentObject().getTemperature() + " °F");
+                windSpeedTextView.setText(cityObject.getCurrentObject().getWindSpeed() + " mph");
+            }
+
+            if (favCityObject != null) {
+                insertFavCityList();
+            }
+
+            displayFavCityList(isUpdated);
+
         }
-
-
-         databaseHelper = new DatabaseHelper(getActivity());
-
-        if (favCityObject != null && !favoriteCityList.contains(favCityObject)) {
-            favoriteCityList.add(favCityObject);
-        }
-
-
-//        ArrayList<String> arrayListTest = new ArrayList<>();
-//        arrayListTest.add("TUan");
-//        arrayListTest.add("Bella");
-//        arrayListTest.add("Bell");
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.homeRecyclerView);
-        linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        homeRecyclerAdapter = new HomeRecyclerAdapter(favoriteCityList);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(homeRecyclerAdapter);
-
-        //displayFavoriteCity();
-        //databaseHelper.deleteAll();
 
         return rootView;
     }
 
-    public void insertFavoriteCity() {
-        //CityPageFragment cityPageFragment = ((MainActivity) getActivity()).getCityPageFragment();
-        Boolean checkInsertData = databaseHelper.insert("DallasTest", "123", "456");
-        if (checkInsertData == false) {
-            Toast.makeText(getActivity(), "Cannot save favorite city", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getActivity(), "Saved favorite city", Toast.LENGTH_LONG).show();
+    public void insertFavCityList() {
+        for (int i = 0; i < favoriteCityList.size(); i++) {
+            if (favoriteCityList.get(i).getLat().equals(favCityObject.getLat())) {
+                Toast.makeText(getActivity(), "Insert Unsuccessfully", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
+            favoriteCityList.add(favCityObject);
+            Boolean checkInsertData = databaseHelper.insertFavCity(favCityObject.getCityName(), favCityObject.getStateName(), favCityObject.getLat(), favCityObject.getLon());
+            if (checkInsertData == true) {
+                Toast.makeText(getActivity(), "New City Inserted", Toast.LENGTH_SHORT).show();
+            }
     }
 
-    public void displayFavoriteCity() {
-        Cursor cursor = databaseHelper.getData();
+    //TODO caled from where
+    private void displayFavCityList(boolean isUpdated) {
+        cursor = databaseHelper.getData();
+        //TODO consider this if
         if (cursor.getCount() == 0) {
-            Toast.makeText(getActivity(), "Empty Data", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "No Entry", Toast.LENGTH_SHORT).show();
             return;
         } else {
-            try {
-                while(!cursor.isAfterLast()) {
-                    String cityName = cursor.getString(1);
-                    String lat = cursor.getString(2);
-                    String lon = cursor.getString(3);
-                    String unit = ((MainActivity) getActivity()).getUnit();
-                    //((MainActivity) getActivity()).getweather2(lat, lon, unit, cityName, "home_fav_city");
-                    //favoriteCityList.add(favCityObject);
-                    cursor.moveToNext();
-                    //TODO: create a fav city object
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+
+            while(cursor.moveToNext()) {
+                Log.i("Check cursur first", String.valueOf(cursor.isFirst()));
+                cityNameArray.add(cursor.getString(1));
+                stateNameArray.add(cursor.getString(2));
+                latArray.add(cursor.getString(3));
+                lonArray.add(cursor.getString(4));
             }
+        }
+
+        for (int i = 0; i < cityNameArray.size(); i++) {
+            retrofit2 = new Retrofit.Builder()
+                    .baseUrl("https://api.openweathermap.org/data/3.0/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            weatherapi2 myapi = retrofit2.create(weatherapi2.class);
+            Call<CityObject> cityObjectCall = myapi.getweather2(latArray.get(i), lonArray.get(i), unit, apikey);
+            int finalI = i;
+            cityObjectCall.enqueue(new Callback<CityObject>() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
+                @Override
+                public void onResponse(Call<CityObject> call, Response<CityObject> response) {
+                    if (response.code() == 404) {
+                        Toast.makeText(getContext(), "Invalid latitude and longitude", Toast.LENGTH_LONG).show();
+                    } else if (!(response.isSuccessful())) {
+                        Log.i("response.notSuccessful", "here");
+                        Toast.makeText(getContext(), response.code() + " ", Toast.LENGTH_LONG).show();
+                        return;
+                    } else {
+                        favCityObject = response.body();
+                        assert favCityObject != null;
+                        favCityObject.setCityName(cityNameArray.get(finalI));
+                        favCityObject.setStateName(stateNameArray.get(finalI));
+                        favoriteCityList.add(favCityObject);
+                    }
+                            recyclerView = (RecyclerView) rootView.findViewById(R.id.homeRecyclerView);
+                            linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                            homeRecyclerAdapter = new HomeRecyclerAdapter(favoriteCityList);
+                            recyclerView.setLayoutManager(linearLayoutManager);
+                            recyclerView.setAdapter(homeRecyclerAdapter);
+                }
+
+                @Override
+                public void onFailure(Call<CityObject> call, Throwable t) {
+                    Log.i("Exception", String.valueOf(t.getMessage()));
+                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+            });
 
         }
     }
+
+
 
     public void setCityObject(CityObject cityObject) {
         this.cityObject = cityObject;

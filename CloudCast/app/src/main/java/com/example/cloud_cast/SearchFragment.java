@@ -1,5 +1,7 @@
 package com.example.cloud_cast;
 
+import static com.example.cloud_cast.MainActivity.apikey;
+
 import android.os.Build;
 import android.os.Bundle;
 
@@ -34,7 +36,6 @@ public class SearchFragment extends Fragment {
     //These 2 api for reference
     //private final static String url2 = "api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}";
     //api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid={API key}
-    private final String apikey = "0ec192d57d6c5e00396f88cd7cad1f6e";
 
     private Retrofit retrofit1 = null;
 
@@ -100,6 +101,7 @@ public class SearchFragment extends Fragment {
               cityName = citiesList.get(cityPosition).getName();
               stateName = citiesList.get(cityPosition).getState();
               ((MainActivity) getActivity()).getweather2(lat, lon, unit, cityName, stateName, "search");
+              getSelectedButton.setVisibility(View.GONE);
             }
         });
 

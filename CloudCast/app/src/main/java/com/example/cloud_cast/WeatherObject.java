@@ -4,13 +4,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class WeatherObject {
-    @SerializedName("id")
-    @Expose
-    private String objectID;
-
-    @SerializedName("main")
-    @Expose
-    private String mainDescription;
 
     @SerializedName("description")
     @Expose
@@ -21,18 +14,8 @@ public class WeatherObject {
     private String icon;
 
     public WeatherObject() {
-        this.objectID = "N/A";
-        this.mainDescription = "N/A";
         this.description = "N/A";
         this.icon = "N/A";
-    }
-
-    public String getObjectID() {
-        return objectID;
-    }
-
-    public String getMainDescription() {
-        return mainDescription;
     }
 
     public String getDescription() {

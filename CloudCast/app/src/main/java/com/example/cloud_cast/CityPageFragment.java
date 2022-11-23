@@ -163,9 +163,6 @@ public class CityPageFragment extends Fragment {
 
                 ((MainActivity) getActivity()).getweather2(favLat, favLon, unit, favCityName, favState, "home_fav_city");
 
-//((MainActivity) getActivity()).homeFragment.insertFavoriteCity();
-//                ((MainActivity) getActivity()).homeFragment.displayFavoriteCity();
-
                 saveButton.setVisibility(View.GONE);
             }
         });

@@ -10,26 +10,20 @@ import androidx.annotation.Nullable;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     //Table Name
-    public static final String TABLE_NAME = "FAVORITE_CITY";
+    public static final String TABLE_NAME = "FavoriteCity";
 
     //Table columns
-    public static final String _ID = "_id";
+    //public static final String _ID = "_id";
     public static final String CITYNAME = "cityname";
+    public static final String STATENAME = "statename";
     public static final String LAT = "lat";
     public static final String LON = "lon";
 
     // Database Information
-    static final String DB_NAME = "FAVORITE_CITY.DB";
+    static final String DB_NAME = "FavoriteCity.db";
 
     //Database Information
     static final int DB_VERSION = 1;
-
-    // Creating table query
-//    private static final String CREATE_TABLE_IF_NOT_EXISTS = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(" + _ID
-//            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CITYNAME + " TEXT NOT NULL, " + LAT + " TEXT NOT NULL, " + LON + " TEXT NOT NULL);";
-
-    private static final String CREATE_TABLE_IF_NOT_EXISTS = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                                                                                                                + CITYNAME + " TEXT);";
 
 
 
@@ -39,7 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(CREATE_TABLE_IF_NOT_EXISTS);
+        sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS FavoriteCity(id INTEGER PRIMARY KEY AUTOINCREMENT, cityname TEXT, statename TEXT, lat TEXT, lon TEXT)");
     }
 
     @Override
@@ -53,10 +47,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.close();
     }
 
-    public boolean insert(String cityName, String lat, String lon) {
+    public boolean insertFavCity(String cityname, String statename, String lat, String lon) {
         SQLiteDatabase database = this.getWritableDatabase();
         ContentValues contentValue = new ContentValues();
-        contentValue.put(DatabaseHelper.CITYNAME, cityName);
+        contentValue.put(DatabaseHelper.CITYNAME, cityname);
+        contentValue.put(DatabaseHelper.STATENAME, statename);
         contentValue.put(DatabaseHelper.LAT, lat);
         contentValue.put(DatabaseHelper.LON, lon);
         long result = database.insert(DatabaseHelper.TABLE_NAME, null, contentValue);
@@ -74,10 +69,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public void delete(long _id) {
-        SQLiteDatabase database = this.getWritableDatabase();
-        database.delete(DatabaseHelper.TABLE_NAME, DatabaseHelper._ID + "=" + _id, null);
-    }
+//    public void delete(long _id) {
+//        SQLiteDatabase database = this.getWritableDatabase();
+//        database.delete(DatabaseHelper.TABLE_NAME, DatabaseHelper._ID + "=" + _id, null);
+//    }
 
     public void deleteAll() {
         SQLiteDatabase database = this.getWritableDatabase();

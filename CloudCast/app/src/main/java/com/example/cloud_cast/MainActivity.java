@@ -71,7 +71,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    private final String apikey = "0ec192d57d6c5e00396f88cd7cad1f6e";
+    public static final String apikey = "0ec192d57d6c5e00396f88cd7cad1f6e";
 
     private Retrofit retrofit2 = null;
 
