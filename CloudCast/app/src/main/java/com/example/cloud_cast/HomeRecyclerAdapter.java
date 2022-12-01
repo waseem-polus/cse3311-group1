@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapter.MyHolder> {
+
     ArrayList<CityObject> favoriteCityList;
 
     public HomeRecyclerAdapter(ArrayList<CityObject> favoriteCityList) {
@@ -27,6 +28,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
+        try {
             //Filter out if stateName is available or not to display
             if (favoriteCityList.get(position).getStateName().equals("N/A")) {
                 holder.cityName.setText(favoriteCityList.get(position).getCityName());
@@ -37,6 +39,10 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
             holder.temp.setText(favoriteCityList.get(position).getCurrentObject().getTemperature() + "°");
             holder.cloudiness.setText(favoriteCityList.get(position).getCurrentObject().getCloudiness() + "%");
             holder.description.setText(favoriteCityList.get(position).getCurrentObject().getWeatherObjectList().get(0).getDescription());
+        } catch (Exception e) {
+            Log.i("Testt", "empty arraylist");
+        }
+
     }
 
     @Override
@@ -57,4 +63,5 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
             cloudiness = itemView.findViewById(R.id.cloudinessTextView);
         }
     }
+
 }

@@ -15,6 +15,10 @@ public class HourlyObject {
     @Expose
     private String temperature;
 
+    @SerializedName("clouds")
+    @Expose
+    private String cloudiness;
+
     @SerializedName("wind_speed")
     @Expose
     private String windSpeed;
@@ -36,6 +40,10 @@ public class HourlyObject {
 
     public String getTemperature() {
         return temperature;
+    }
+
+    public String getCloudiness() {
+        return cloudiness;
     }
 
     public String getWindSpeed() {

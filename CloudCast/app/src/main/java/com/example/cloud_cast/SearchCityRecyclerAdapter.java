@@ -20,7 +20,7 @@ public class SearchCityRecyclerAdapter extends RecyclerView.Adapter<SearchCityRe
     Context context;
     ArrayList<SearchCityInfo> list;
 
-    public static int checkedPosition = -1; //The 0 is first item, -1 is hidden
+    public static int checkedPosition = -1;
 
     public SearchCityRecyclerAdapter(Context context, ArrayList<SearchCityInfo> list){
         this.context = context;
@@ -37,7 +37,10 @@ public class SearchCityRecyclerAdapter extends RecyclerView.Adapter<SearchCityRe
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         SearchCityInfo currentCity = list.get(position);
-        checkedPosition = -1;
+//        holder.cityName.setText(searchCityInfo.getName());
+        holder.cityName.setText(currentCity.getName());
+        holder.stateName.setText(currentCity.getState());
+        holder.countryName.setText(currentCity.getCountry());
         holder.bind(currentCity);
     }
 
@@ -58,6 +61,7 @@ public class SearchCityRecyclerAdapter extends RecyclerView.Adapter<SearchCityRe
 
         public MyViewHolder(@NonNull View itemView){
             super(itemView);
+            checkedPosition = -1; //The 0 is first item, -1 is hidden
             cityName    = itemView.findViewById(R.id.cityView);
             stateName   = itemView.findViewById(R.id.stateView);
             countryName = itemView.findViewById(R.id.countryView);
@@ -70,15 +74,12 @@ public class SearchCityRecyclerAdapter extends RecyclerView.Adapter<SearchCityRe
             } else {
                 if (checkedPosition == getAdapterPosition()) {
                     selectImageView.setVisibility(View.VISIBLE);
-
                 } else {
                     selectImageView.setVisibility(View.GONE);
                 }
             }
 
-            cityName.setText(searchCityInfo.getName());
-            stateName.setText(searchCityInfo.getState());
-            countryName.setText(searchCityInfo.getCountry());
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -87,8 +88,8 @@ public class SearchCityRecyclerAdapter extends RecyclerView.Adapter<SearchCityRe
                     if (checkedPosition != getAdapterPosition()) {
                         notifyItemChanged(checkedPosition);
                         checkedPosition = getAdapterPosition();
+                        notifyDataSetChanged();
                     }
-
                 }
             });
         }

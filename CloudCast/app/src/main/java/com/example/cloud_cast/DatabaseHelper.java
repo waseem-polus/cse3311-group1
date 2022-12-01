@@ -69,14 +69,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-//    public void delete(long _id) {
-//        SQLiteDatabase database = this.getWritableDatabase();
-//        database.delete(DatabaseHelper.TABLE_NAME, DatabaseHelper._ID + "=" + _id, null);
-//    }
-
     public void deleteAll() {
         SQLiteDatabase database = this.getWritableDatabase();
-        database.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        database.execSQL("DELETE FROM " + TABLE_NAME);
+        database.close();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.example.cloud_cast;
 
 import static com.example.cloud_cast.MainActivity.apikey;
+import static com.example.cloud_cast.MainActivity.exclude;
 
 import android.database.Cursor;
 import android.os.Build;
@@ -34,6 +35,7 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     HomeRecyclerAdapter homeRecyclerAdapter;
     LinearLayoutManager linearLayoutManager;
+    private TextView emptyView;
 
     DatabaseHelper databaseHelper;
     Cursor cursor;
@@ -61,7 +63,8 @@ public class HomeFragment extends Fragment {
     CityObject favCityObject;
 
     String unit;
-    private boolean isUpdated = true;
+
+    private boolean isReadFromDataBase = true;
 
     private View rootView;
 
@@ -80,7 +83,8 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
             rootView = inflater.inflate(R.layout.fragment_home, container, false);
-
+            recyclerView = (RecyclerView) rootView.findViewById(R.id.homeRecyclerView);
+            emptyView = (TextView) rootView.findViewById(R.id.emptyTextView);
 
         if (!cityObject.getLat().equals("N/A")) {
             String unit = ((MainActivity) getActivity()).getUnit();
@@ -132,13 +136,25 @@ public class HomeFragment extends Fragment {
                 windSpeedTextView.setText(cityObject.getCurrentObject().getWindSpeed() + " mph");
             }
 
-            if (favCityObject != null && !favoriteCityList.contains(favCityObject)) {
-                insertFavCityList();
+
+            try {
+                if (favCityObject != null && !favoriteCityList.contains(favCityObject)) {
+                    insertFavCityList();
+                    emptyView.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                } else if (favoriteCityList.size() == 0) {
+                    emptyView.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                }
+            } catch (NullPointerException e) {
+                emptyView.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
             }
 
-            displayFavCityList(isUpdated);
 
-            recyclerView = (RecyclerView) rootView.findViewById(R.id.homeRecyclerView);
+
+            displayFavCityList(isReadFromDataBase);
+
             linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             homeRecyclerAdapter = new HomeRecyclerAdapter(favoriteCityList);
             recyclerView.setLayoutManager(linearLayoutManager);
@@ -150,8 +166,10 @@ public class HomeFragment extends Fragment {
     }
 
     public void insertFavCityList() {
+        //Check if the Object already in the List
         for (int i = 0; i < favoriteCityList.size(); i++) {
             if (favoriteCityList.get(i).getLat().equals(favCityObject.getLat())) {
+                Toast.makeText(getActivity(), "City already added", Toast.LENGTH_SHORT).show();
                 return;
             }
         }
@@ -164,19 +182,19 @@ public class HomeFragment extends Fragment {
             }
     }
 
-    //TODO caled from where
-    private void displayFavCityList(boolean isUpdated) {
-        if (isUpdated == true) {
-            this.isUpdated = false;
+    private void displayFavCityList(boolean isReadFromDataBase) {
+        if (isReadFromDataBase == true) {
+            this.isReadFromDataBase = false;
         cursor = databaseHelper.getData();
         //TODO consider this if
         if (cursor.getCount() == 0) {
-            Toast.makeText(getActivity(), "No Entry", Toast.LENGTH_SHORT).show();
+            emptyView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
             return;
         } else {
-
+            emptyView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
             while(cursor.moveToNext()) {
-                Log.i("Check cursur first", String.valueOf(cursor.isFirst()));
                 cityNameArray.add(cursor.getString(1));
                 stateNameArray.add(cursor.getString(2));
                 latArray.add(cursor.getString(3));
@@ -190,7 +208,7 @@ public class HomeFragment extends Fragment {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             weatherapi2 myapi = retrofit2.create(weatherapi2.class);
-            Call<CityObject> cityObjectCall = myapi.getweather2(latArray.get(i), lonArray.get(i), unit, apikey);
+            Call<CityObject> cityObjectCall = myapi.getweather2(latArray.get(i), lonArray.get(i), exclude, unit, apikey);
             int finalI = i;
             cityObjectCall.enqueue(new Callback<CityObject>() {
                 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -227,7 +245,9 @@ public class HomeFragment extends Fragment {
         }
     }
 
-
+    public void setReadFromDataBase(boolean readFromDataBase) {
+        isReadFromDataBase = readFromDataBase;
+    }
 
     public void setCityObject(CityObject cityObject) {
         this.cityObject = cityObject;
@@ -235,6 +255,10 @@ public class HomeFragment extends Fragment {
 
     public void setFavCityObject(CityObject favCityObject) {
         this.favCityObject = favCityObject;
+    }
+
+    public void setFavoriteCityList(ArrayList<CityObject> favoriteCityList) {
+        this.favoriteCityList = favoriteCityList;
     }
 
 

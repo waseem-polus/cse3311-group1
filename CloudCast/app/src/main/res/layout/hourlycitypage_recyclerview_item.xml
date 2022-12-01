@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="48dp"
+    android:layout_width="match_parent"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="10dp"
+    android:layout_margin="5dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/cardview_default_radius">
+
+        <TextView
+            android:id="@+id/timeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:text="11:00 AM"
+            android:textColor="@color/black"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+             />
+
+        <ImageView
+            android:id="@+id/iconWeatherImageView"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_toEndOf="@+id/timeTextView"
+            android:layout_centerInParent="true"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <ImageView
+            android:id="@+id/tempIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerInParent="true"
+            android:layout_toEndOf="@+id/iconWeatherImageView"
+            app:srcCompat="@drawable/ic_thermometer_fill0_wght400_grad0_opsz48" />
+
+        <TextView
+            android:id="@+id/tempTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/cardview_default_radius"
+            android:text="TextView"
+            android:layout_toEndOf="@+id/tempIcon"
+            android:layout_centerInParent="true"/>
+
+        <ImageView
+            android:id="@+id/cloudinessIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="64dp"
+            android:layout_toEndOf="@+id/tempIcon"
+            app:srcCompat="@drawable/ic_rainy_fill0_wght400_grad0_opsz48" />
+
+        <TextView
+            android:id="@+id/cloudinessTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/cardview_default_radius"
+            android:text="TextView"
+            android:layout_toEndOf="@+id/cloudinessIcon"
+            android:layout_centerInParent="true"/>
+
+        <ImageView
+            android:id="@+id/windSpeedIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="64dp"
+            android:layout_toEndOf="@+id/cloudinessIcon"
+            app:srcCompat="@drawable/ic_air_fill0_wght400_grad0_opsz48" />
+
+        <TextView
+            android:id="@+id/windSpeedTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/cardview_default_radius"
+            android:text="TextView"
+            android:layout_toEndOf="@+id/windSpeedIcon"
+            android:layout_centerInParent="true"/>
+
+
+    </RelativeLayout>
+
+
+
+</androidx.cardview.widget.CardView>

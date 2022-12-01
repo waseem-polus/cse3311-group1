@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CityPageFragment">
@@ -10,6 +14,7 @@
         android:id="@+id/cityNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
+        android:layout_marginTop="14dp"
         android:padding="4dp"
         android:text="City Name"
         android:textColor="@color/black"
@@ -33,6 +38,7 @@
         android:id="@+id/backArrowImageView"
         android:layout_width="24dp"
         android:layout_height="21dp"
+        android:layout_marginTop="14dp"
         android:src="@drawable/back_arrow"
         app:layout_constraintBottom_toBottomOf="@+id/view2"
         app:layout_constraintEnd_toStartOf="@+id/cityNameTextView"
@@ -43,18 +49,17 @@
         android:id="@+id/tempTextView"
         android:layout_width="91dp"
         android:layout_height="41dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="Temp"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.528"
+        app:layout_constraintHorizontal_bias="0.518"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.149" />
+        app:layout_constraintTop_toBottomOf="@+id/dateTextView" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -68,6 +73,7 @@
         android:id="@+id/imageView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
         android:src="@drawable/divider"
         app:layout_constraintBottom_toBottomOf="@+id/tempTextView"
         app:layout_constraintStart_toEndOf="@+id/tempTextView"
@@ -75,7 +81,7 @@
 
     <TextView
         android:id="@+id/highTempTextView"
-        android:layout_width="49dp"
+        android:layout_width="59dp"
         android:layout_height="23dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="-5dp"
@@ -87,7 +93,7 @@
 
     <TextView
         android:id="@+id/lowTempTextView"
-        android:layout_width="49dp"
+        android:layout_width="59dp"
         android:layout_height="24dp"
         android:layout_marginStart="8dp"
         android:gravity="center"
@@ -101,36 +107,37 @@
         android:id="@+id/descriptionTextView"
         android:layout_width="130dp"
         android:layout_height="19dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
+        android:paddingStart="6dp"
         android:paddingLeft="5dp"
         android:text="description"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.604"
+        app:layout_constraintHorizontal_bias="0.629"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tempTextView" />
 
     <TextView
         android:id="@+id/sunriseTextView"
         android:layout_width="74dp"
-        android:layout_height="19dp"
-        android:layout_marginTop="12dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="sunrise"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.32"
+        app:layout_constraintHorizontal_bias="0.281"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/descriptionTextView" />
 
     <TextView
         android:id="@+id/sunsetTextView"
         android:layout_width="68dp"
-        android:layout_height="19dp"
+        android:layout_height="24dp"
         android:layout_marginStart="68dp"
         android:gravity="center"
         android:text="sunset"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.159"
+        app:layout_constraintHorizontal_bias="0.386"
         app:layout_constraintStart_toEndOf="@+id/sunriseTextView"
         app:layout_constraintTop_toTopOf="@+id/sunriseTextView" />
 
@@ -138,33 +145,30 @@
         android:id="@+id/dateTextView"
         android:layout_width="270dp"
         android:layout_height="36dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="23dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:text="Date"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/tempTextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.539"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/cityNameTextView" />
 
     <ImageView
         android:id="@+id/sunriseIcon"
         android:layout_width="23dp"
-        android:layout_height="19dp"
+        android:layout_height="24dp"
         android:foregroundGravity="center"
-        android:src="@drawable/ic_flare_fill0_wght400_grad0_opsz48"
+        android:src="@drawable/sunrise"
         app:layout_constraintEnd_toStartOf="@+id/sunriseTextView"
         app:layout_constraintTop_toTopOf="@+id/sunriseTextView" />
 
     <ImageView
         android:id="@+id/sunsetIcon"
         android:layout_width="23dp"
-        android:layout_height="19dp"
+        android:layout_height="24dp"
         android:foregroundGravity="center"
-        android:src="@drawable/ic_flare_fill0_wght400_grad0_opsz48"
+        android:src="@drawable/sunset"
         app:layout_constraintEnd_toStartOf="@+id/sunsetTextView"
         app:layout_constraintTop_toTopOf="@+id/sunsetTextView" />
 
@@ -326,15 +330,47 @@
         app:layout_constraintTop_toTopOf="@+id/descriptionTextView"
         tools:src="@tools:sample/avatars" />
 
-    <Button
-        android:id="@+id/saveButton"
+
+    <TextView
+        android:id="@+id/hourly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="16dp"
-        android:text="save"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:text="Hourly ForeCast"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/pressureIcon"
         app:layout_constraintTop_toBottomOf="@+id/dailyRecyclerView" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/hourlyRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hourly" />
+
+    <ImageView
+        android:id="@+id/notFavoriteButton"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="412dp"
+        app:layout_constraintEnd_toEndOf="@+id/favoriteButton"
+        app:layout_constraintTop_toTopOf="@+id/hourlyRecyclerView"
+        app:srcCompat="@drawable/not_favorite" />
+
+    <ImageView
+        android:id="@+id/favoriteButton"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="412dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="@+id/hourlyRecyclerView"
+        app:layout_constraintTop_toTopOf="@+id/hourlyRecyclerView"
+        app:srcCompat="@drawable/favorite" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

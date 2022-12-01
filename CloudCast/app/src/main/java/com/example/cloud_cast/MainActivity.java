@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Address;
@@ -39,6 +40,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -72,6 +74,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     public static final String apikey = "0ec192d57d6c5e00396f88cd7cad1f6e";
+    public static final String exclude = "minutely, alerts";
+
+    SharedPreferences preferences;
 
     private Retrofit retrofit2 = null;
 
@@ -80,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
     private String latGPS = null;
     private String lonGPS = null;
 
-    private String unit = "metric"; //metric as default
+    private String unit; //metric as default
     private String cityNameGPS = null;
     private int PERMISSION_ID = 44;
 
@@ -101,6 +106,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_main);
+
+        //get unit
+        preferences = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
+        unit = preferences.getString("unit", "metric");
 
         cityPageFragment = new CityPageFragment();
 
@@ -166,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please turn on" + " your location...", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(intent);
+                finish();
             }
         } else {
             // if permissions aren't available,
@@ -253,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         weatherapi2 myapi=retrofit2.create(weatherapi2.class);
-        Call<CityObject> cityObjectCall=myapi.getweather2(lat, lon, unit,apikey);
+        Call<CityObject> cityObjectCall=myapi.getweather2(lat, lon, exclude, unit, apikey);
         cityObjectCall.enqueue(new Callback<CityObject>() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -286,7 +296,17 @@ public class MainActivity extends AppCompatActivity {
                         assert favCityObject != null;
                         favCityObject.setCityName(cityName);
                         favCityObject.setStateName(stateName);
-                        homeFragment.setFavCityObject(cityObject);
+                        homeFragment.setFavCityObject(favCityObject);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, homeFragment).commit();
+                    } else if (calledFrom.equals("settings")) {
+                        cityObject = response.body();
+                        assert cityObject != null;
+                        cityObject.setCityName(cityName);
+                        homeFragment.setCityObject(cityObject);
+
+                        homeFragment.setReadFromDataBase(true);
+                        homeFragment.setFavCityObject(null);
+                        homeFragment.setFavoriteCityList(new ArrayList<>());
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, homeFragment).commit();
                     }
                 }

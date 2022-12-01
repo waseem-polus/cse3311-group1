@@ -1,6 +1,5 @@
 package com.example.cloud_cast;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +13,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class CitypageRecyclerAdapter extends RecyclerView.Adapter<CitypageRecyclerAdapter.MyHolder> {
+public class DailyCityPageRecyclerAdapter extends RecyclerView.Adapter<DailyCityPageRecyclerAdapter.MyHolder> {
     private final CityPageFragment cityPageFragment;
     private ArrayList<DailyObject> dailyObjects;
     String iconCode;
 
-    public CitypageRecyclerAdapter(CityPageFragment fragment, ArrayList<DailyObject> dailyObjects) {
+    public DailyCityPageRecyclerAdapter(CityPageFragment fragment, ArrayList<DailyObject> dailyObjects) {
         this.cityPageFragment = fragment;
         this.dailyObjects = dailyObjects;
     }
@@ -34,7 +33,7 @@ public class CitypageRecyclerAdapter extends RecyclerView.Adapter<CitypageRecycl
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        holder.dayTextView.setText(cityPageFragment.convertTimeStamp(dailyObjects.get(position).getDay(), false));
+        holder.dayTextView.setText(cityPageFragment.convertTimeStamp(dailyObjects.get(position).getDay(), false, false));
         holder.highTempDaily.setText(dailyObjects.get(position).getTemp().getMax() + " °");
         holder.lowTempDaily.setText(dailyObjects.get(position).getTemp().getMin() + " °");
         iconCode = dailyObjects.get(position).getWeatherObjectList().get(0).getIcon();

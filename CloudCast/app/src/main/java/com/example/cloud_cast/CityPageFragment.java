@@ -12,41 +12,48 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class CityPageFragment extends Fragment {
     BottomNavigationView bottomNavigationView;
     LinearLayoutManager linearLayoutManager;
-    CitypageRecyclerAdapter citypageRecyclerAdapter;
+    DailyCityPageRecyclerAdapter dailyCityPageRecyclerAdapter;
+    HourlyCityPageRecyclerAdapter hourlyCityPageRecyclerAdapter;
     ArrayList<DailyObject> dailyObjects;
+    ArrayList<HourlyObject> hourlyObjects;
     CityObject cityObject = new CityObject();
 
-    private  TextView currentDate;
-    private  TextView cityName;
-    private  TextView description;
-    private  TextView sunrise;
-    private  TextView sunset;
-    private  TextView temperatureTextView;
-    private  TextView highTempTextView;
-    private  TextView lowTempTextView;
-    private  TextView windSpeedTextView;
-    private  TextView pressureTextView;
-    private  TextView humidityTextView;
-    private  TextView cloudiness;
-    private  TextView feelsLikeTextView;
-    private  TextView uviTextView;
+    private TextView currentDate;
+    private TextView cityName;
+    private TextView description;
+    private TextView sunrise;
+    private TextView sunset;
+    private TextView temperatureTextView;
+    private TextView highTempTextView;
+    private TextView lowTempTextView;
+    private TextView windSpeedTextView;
+    private TextView pressureTextView;
+    private TextView humidityTextView;
+    private TextView cloudiness;
+    private TextView feelsLikeTextView;
+    private TextView uviTextView;
     private ImageView currentIcon;
     private String iconCode;
     private ImageView backArrowImageView;
     private Button saveButton;
+    private ImageView notFavButton;
+    private ImageView favButton;
 
     private String favCityName;
     private String favState;
@@ -71,20 +78,21 @@ public class CityPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView =  inflater.inflate(R.layout.fragment_city_page, container, false);
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.dailyRecyclerView);
+        RecyclerView dailyRecyclerView = (RecyclerView) rootView.findViewById(R.id.dailyRecyclerView);
+        RecyclerView hourlyRecyclerView = (RecyclerView) rootView.findViewById(R.id.hourlyRecyclerView);
 
         String unit = ((MainActivity) getActivity()).getUnit();
 
 
         //            This is for tableView in citypage screen
         currentDate = (TextView) rootView.findViewById(R.id.dateTextView);
-        currentDate.setText(convertTimeStamp(cityObject.getCurrentObject().getCurrentTime(), true));
+        currentDate.setText(convertTimeStamp(cityObject.getCurrentObject().getCurrentTime(), true, false));
 
         sunrise = (TextView) rootView.findViewById(R.id.sunriseTextView);
-        sunrise.setText(cityObject.getCurrentObject().getSunrise());
+        sunrise.setText(this.convertTimeStamp(cityObject.getCurrentObject().getSunrise(), false, true));
 
         sunset = (TextView) rootView.findViewById(R.id.sunsetTextView);
-        sunset.setText(cityObject.getCurrentObject().getSunset());
+        sunset.setText(this. convertTimeStamp(cityObject.getCurrentObject().getSunset(), false, true));
 
         cityName = (TextView) rootView.findViewById(R.id.cityNameTextView);
         cityName.setText(cityObject.getCityName());
@@ -134,14 +142,24 @@ public class CityPageFragment extends Fragment {
             windSpeedTextView.setText(cityObject.getCurrentObject().getWindSpeed() + " mph");
         }
 
-        //This part is to set up citypage recylerview for daily weather
+        //This part is to set up citypage recylerview for daily weather and hourly weather
         dailyObjects = new ArrayList<>();
         dailyObjects = (ArrayList<DailyObject>) cityObject.getDailyObject();
 
+
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        citypageRecyclerAdapter = new CitypageRecyclerAdapter(this, dailyObjects);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(citypageRecyclerAdapter);
+        dailyCityPageRecyclerAdapter = new DailyCityPageRecyclerAdapter(this, dailyObjects);
+        dailyRecyclerView.setLayoutManager(linearLayoutManager);
+        dailyRecyclerView.setAdapter(dailyCityPageRecyclerAdapter);
+
+        hourlyObjects = new ArrayList<>();
+        hourlyObjects = (ArrayList<HourlyObject>) cityObject.getHourlyObject();
+
+        linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        hourlyCityPageRecyclerAdapter = new HourlyCityPageRecyclerAdapter(this, hourlyObjects, unit);
+        hourlyRecyclerView.setLayoutManager(linearLayoutManager);
+        hourlyRecyclerView.setAdapter(hourlyCityPageRecyclerAdapter);
+
 
         backArrowImageView = (ImageView) rootView.findViewById(R.id.backArrowImageView);
         backArrowImageView.setOnClickListener(new View.OnClickListener() {
@@ -151,11 +169,28 @@ public class CityPageFragment extends Fragment {
             }
         });
 
-        //Save favorite city Button
-        saveButton = rootView.findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        //Save favorite city button
+        notFavButton = rootView.findViewById(R.id.notFavoriteButton);
+        favButton    = rootView.findViewById(R.id.favoriteButton);
+        favButton.setVisibility(View.INVISIBLE);
+
+        hourlyRecyclerView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View view, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY > oldScrollY + 12) {
+                    notFavButton.setVisibility(View.INVISIBLE);
+                }
+                if (scrollY < oldScrollY - 12) {
+                    notFavButton.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        notFavButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                notFavButton.setVisibility(View.GONE);
+                favButton.setVisibility(View.VISIBLE);
                 favCityName = cityObject.getCityName();
                 favState    = cityObject.getStateName();
                 favLat      = cityObject.getLat();
@@ -163,7 +198,6 @@ public class CityPageFragment extends Fragment {
 
                 ((MainActivity) getActivity()).getweather2(favLat, favLon, unit, favCityName, favState, "home_fav_city");
 
-                saveButton.setVisibility(View.GONE);
             }
         });
 
@@ -184,8 +218,8 @@ public class CityPageFragment extends Fragment {
         return databaseHelper;
     }
 
-    public String convertTimeStamp (String timeStamp, boolean isFullDate) {
-        long timeStampLong = Long.parseLong(timeStamp) * 1000; //If you get the time in seconds, you have to multiply it by 1000
+    public String convertTimeStamp (String timeStamp, boolean isFullDate, boolean isHourly) {
+        long timeStampLong = (Long.parseLong(timeStamp) + Long.parseLong(cityObject.getTimezoneOffset())) * 1000; //If you get the time in seconds, you have to multiply it by 1000
         Date d = new Date(timeStampLong);
         Calendar c = Calendar.getInstance();
         c.setTime(d);
@@ -198,7 +232,11 @@ public class CityPageFragment extends Fragment {
         //Check for full date or only three letters day
         String time = null;
         if (isFullDate == true) {
-            time = dayString + ", " + String.valueOf(date) + '-' + monthString + '-' + String.valueOf(year);
+            time = dayString + ", " + String.valueOf(date) + " - " + monthString + " - " + String.valueOf(year);
+        } else if (isHourly == true) {
+            SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm aa");
+            formatTime.setTimeZone(TimeZone.getTimeZone("UTC"));
+            return formatTime.format(d);
         } else {
             int shortDay = LocalDate.of(year, month, date).getDayOfWeek().getValue();
             switch (shortDay) {

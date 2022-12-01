@@ -16,6 +16,9 @@ public class CityObject {
     @Expose
     private String lon;
 
+    @SerializedName("timezone_offset")
+    @Expose
+    private String timezoneOffset;
 
     @SerializedName("current")
     @Expose
@@ -48,6 +51,10 @@ public class CityObject {
 
     public String getLon() {
         return lon;
+    }
+
+    public String getTimezoneOffset() {
+        return timezoneOffset;
     }
 
     public CurrentObject getCurrentObject() {
