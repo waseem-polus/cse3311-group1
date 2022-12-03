@@ -55,4 +55,5 @@ public class SearchCityInfo {
     public String getState() {
         return state;
     }
+
 }
