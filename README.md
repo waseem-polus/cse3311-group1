@@ -1,8 +1,8 @@
 # CloudCast  
 ## CSE 3311 - Group 1  
-### State-of-the-art weather application to be able to showcase current and weekly details of the weather any where and any time  <br> 
+#### State-of-the-art weather application to be able to showcase current and weekly details of the weather any where and any time  <br> 
 
-### IMPORTANT: Before running the application, the user needs to generate an API from Openweathermap.org website. Then, use the default API generated and insert it in the variable declaration "public static final String apikey" inside MainActivity.java to run the app.  <br> 
+### IMPORTANT: Before running the application, the user needs to generate an API key from  [Openweathermap.org](https://openweathermap.org/) website. Then, use the default API key generated and insert it in the variable declaration "public static final String apikey" inside MainActivity.java to run the app.  <br> 
 
 ### 1. Splash/Intro Page  
 - Upon start up, the application will show the apllication's logo.   <br> 
